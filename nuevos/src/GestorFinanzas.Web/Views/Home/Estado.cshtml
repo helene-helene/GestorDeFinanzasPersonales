@@ -1,0 +1,17 @@
+@{
+    var codigo = ViewData["Codigo"] as int? ?? 0;
+    var (titulo, mensaje) = codigo switch
+    {
+        404 => ("Página no encontrada", "Lo que buscas no existe o no tienes permiso para verlo."),
+        400 => ("Solicitud no válida", "No pudimos procesar la solicitud. Recarga la página e inténtalo de nuevo."),
+        403 => ("Acceso denegado", "No tienes permiso para ver esta página."),
+        _ => ("Ocurrió un problema", "No pudimos completar la operación. Inténtalo de nuevo.")
+    };
+    ViewData["Title"] = titulo;
+}
+
+<div class="p-4 bg-white border rounded-3">
+    <h1 class="h4 text-danger">@titulo</h1>
+    <p class="mb-3">@mensaje</p>
+    <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Volver al inicio</a>
+</div>
