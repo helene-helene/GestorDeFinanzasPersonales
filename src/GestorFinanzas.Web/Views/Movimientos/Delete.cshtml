@@ -1,0 +1,31 @@
+@model Transaccion
+@{
+    ViewData["Title"] = "Eliminar movimiento";
+    var esIngreso = Model.Tipo == TipoMovimiento.Ingreso;
+}
+
+<h1 class="h3 mb-3">Eliminar movimiento</h1>
+
+<div class="card card-body">
+    <p class="mb-3">¿Seguro que quieres eliminar este movimiento? El saldo de la cuenta se ajustará automáticamente.</p>
+
+    <dl class="row mb-4">
+        <dt class="col-sm-3">Tipo</dt>
+        <dd class="col-sm-9">@Model.Tipo</dd>
+        <dt class="col-sm-3">Monto</dt>
+        <dd class="col-sm-9 fw-semibold @(esIngreso ? "text-success" : "text-danger")">$@Model.Monto.ToString("N2")</dd>
+        <dt class="col-sm-3">Fecha</dt>
+        <dd class="col-sm-9">@Model.Fecha.ToString("dd/MM/yyyy")</dd>
+        <dt class="col-sm-3">Categoría</dt>
+        <dd class="col-sm-9">@Model.Categoria.Nombre</dd>
+        <dt class="col-sm-3">Cuenta</dt>
+        <dd class="col-sm-9">@Model.Cuenta.NombreCuenta</dd>
+        <dt class="col-sm-3">Descripción</dt>
+        <dd class="col-sm-9">@(string.IsNullOrWhiteSpace(Model.Descripcion) ? "—" : Model.Descripcion)</dd>
+    </dl>
+
+    <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-flex gap-2">
+        <button type="submit" class="btn btn-danger"><i class="bi bi-trash me-1"></i>Sí, eliminar</button>
+        <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>
+    </form>
+</div>
