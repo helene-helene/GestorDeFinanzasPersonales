@@ -1,0 +1,17 @@
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="p-4 p-md-5 bg-white border rounded-3">
+    <h1 class="h3 mb-3">Gestor de Finanzas Personales</h1>
+    <p class="text-secondary mb-4">
+        Registra tus ingresos y gastos, revisa tu historial y mantén el control de tu dinero.
+        El resumen financiero de esta pantalla lo completa el módulo de Inicio.
+    </p>
+    <a class="btn btn-primary" asp-controller="Movimientos" asp-action="Index">
+        <i class="bi bi-list-ul me-1"></i>Ver mis movimientos
+    </a>
+    <a class="btn btn-outline-primary" asp-controller="Movimientos" asp-action="Create">
+        <i class="bi bi-plus-circle me-1"></i>Registrar movimiento
+    </a>
+</div>

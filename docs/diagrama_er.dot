@@ -1,0 +1,101 @@
+digraph ER {
+  graph [rankdir=LR, splines=polyline, nodesep=0.5, ranksep=1.6, fontname="Helvetica", bgcolor="white", pad=0.3];
+  node  [shape=plain, fontname="Helvetica", fontsize=11];
+  edge  [fontname="Helvetica", fontsize=11, labeldistance=1.8, labelfontcolor="#b71c1c", dir=both, arrowtail=tee, arrowhead=crow, color="#455a64", penwidth=1.3];
+
+  Usuario [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" COLOR="#37474f">
+      <TR><TD BGCOLOR="#1565c0" ALIGN="CENTER"><FONT COLOR="white"><B>Usuarios</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> Id : int</TD></TR>
+      <TR><TD ALIGN="LEFT">Nombre : nvarchar(100)</TD></TR>
+      <TR><TD ALIGN="LEFT">Correo : nvarchar(150) <I>(único)</I></TD></TR>
+      <TR><TD ALIGN="LEFT">Contrasenia : nvarchar(256)</TD></TR>
+      <TR><TD ALIGN="LEFT">FechaRegistro : datetime</TD></TR>
+    </TABLE>>];
+
+  Cuenta [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" COLOR="#37474f">
+      <TR><TD BGCOLOR="#1565c0" ALIGN="CENTER"><FONT COLOR="white"><B>Cuentas</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> Id : int</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>FK</B> UsuarioId : int</TD></TR>
+      <TR><TD ALIGN="LEFT">NombreCuenta : nvarchar(100)</TD></TR>
+      <TR><TD ALIGN="LEFT">TipoCuenta : nvarchar(30)</TD></TR>
+      <TR><TD ALIGN="LEFT">SaldoActual : decimal(12,2)</TD></TR>
+      <TR><TD ALIGN="LEFT">Moneda : nvarchar(10)</TD></TR>
+    </TABLE>>];
+
+  Transaccion [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" COLOR="#37474f">
+      <TR><TD BGCOLOR="#2e7d32" ALIGN="CENTER"><FONT COLOR="white"><B>Transacciones</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> Id : int</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>FK</B> CuentaId : int</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>FK</B> CategoriaId : int</TD></TR>
+      <TR><TD ALIGN="LEFT">Monto : decimal(12,2)</TD></TR>
+      <TR><TD ALIGN="LEFT">Tipo : nvarchar(20)</TD></TR>
+      <TR><TD ALIGN="LEFT">Fecha : datetime</TD></TR>
+      <TR><TD ALIGN="LEFT">Descripcion : nvarchar(200)</TD></TR>
+    </TABLE>>];
+
+  Categoria [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" COLOR="#37474f">
+      <TR><TD BGCOLOR="#2e7d32" ALIGN="CENTER"><FONT COLOR="white"><B>Categorias</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> Id : int</TD></TR>
+      <TR><TD ALIGN="LEFT">Nombre : nvarchar(60)</TD></TR>
+      <TR><TD ALIGN="LEFT">Tipo : nvarchar(20)</TD></TR>
+      <TR><TD ALIGN="LEFT">Icono : nvarchar(50)</TD></TR>
+    </TABLE>>];
+
+  Presupuesto [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" COLOR="#37474f">
+      <TR><TD BGCOLOR="#ef6c00" ALIGN="CENTER"><FONT COLOR="white"><B>Presupuestos</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> Id : int</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>FK</B> UsuarioId : int</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>FK</B> CategoriaId : int</TD></TR>
+      <TR><TD ALIGN="LEFT">MontoLimite : decimal(12,2)</TD></TR>
+      <TR><TD ALIGN="LEFT">Periodo : nvarchar(20)</TD></TR>
+      <TR><TD ALIGN="LEFT">FechaInicio : date</TD></TR>
+      <TR><TD ALIGN="LEFT">FechaFin : date</TD></TR>
+    </TABLE>>];
+
+  MetaAhorro [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" COLOR="#37474f">
+      <TR><TD BGCOLOR="#ef6c00" ALIGN="CENTER"><FONT COLOR="white"><B>MetasAhorro</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> Id : int</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>FK</B> UsuarioId : int</TD></TR>
+      <TR><TD ALIGN="LEFT">NombreMeta : nvarchar(100)</TD></TR>
+      <TR><TD ALIGN="LEFT">MontoObjetivo : decimal(12,2)</TD></TR>
+      <TR><TD ALIGN="LEFT">MontoActual : decimal(12,2)</TD></TR>
+      <TR><TD ALIGN="LEFT">FechaLimite : date</TD></TR>
+    </TABLE>>];
+
+  Recomendacion [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" COLOR="#37474f">
+      <TR><TD BGCOLOR="#6a1b9a" ALIGN="CENTER"><FONT COLOR="white"><B>RecomendacionesIA</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> Id : int</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>FK</B> UsuarioId : int</TD></TR>
+      <TR><TD ALIGN="LEFT">TipoRecomendacion : nvarchar(50)</TD></TR>
+      <TR><TD ALIGN="LEFT">Descripcion : nvarchar(300)</TD></TR>
+      <TR><TD ALIGN="LEFT">FechaGeneracion : datetime</TD></TR>
+      <TR><TD ALIGN="LEFT">Aplicada : bit</TD></TR>
+    </TABLE>>];
+
+  Notificacion [label=<
+    <TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" COLOR="#37474f">
+      <TR><TD BGCOLOR="#6a1b9a" ALIGN="CENTER"><FONT COLOR="white"><B>Notificaciones</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>PK</B> Id : int</TD></TR>
+      <TR><TD ALIGN="LEFT"><B>FK</B> UsuarioId : int</TD></TR>
+      <TR><TD ALIGN="LEFT">Tipo : nvarchar(30)</TD></TR>
+      <TR><TD ALIGN="LEFT">Mensaje : nvarchar(250)</TD></TR>
+      <TR><TD ALIGN="LEFT">FechaEnvio : datetime</TD></TR>
+      <TR><TD ALIGN="LEFT">Leida : bit</TD></TR>
+    </TABLE>>];
+
+  Usuario -> Cuenta [taillabel="1", headlabel="N"];
+  Cuenta -> Transaccion [taillabel="1", headlabel="N"];
+  Categoria -> Transaccion [taillabel="1", headlabel="N"];
+  Usuario -> Presupuesto [taillabel="1", headlabel="N"];
+  Categoria -> Presupuesto [taillabel="1", headlabel="N"];
+  Usuario -> MetaAhorro [taillabel="1", headlabel="N"];
+  Usuario -> Recomendacion [taillabel="1", headlabel="N"];
+  Usuario -> Notificacion [taillabel="1", headlabel="N"];
+}
