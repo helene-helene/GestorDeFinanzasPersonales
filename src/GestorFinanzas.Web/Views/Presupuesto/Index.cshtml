@@ -1,0 +1,82 @@
+@model IReadOnlyList<PresupuestoResumen>
+@{
+    ViewData["Title"] = "Mis presupuestos";
+    var hoy = DateTime.Today;
+    var enRiesgo = Model.Where(r => r.Vigente && r.Estado != EstadoPresupuesto.Normal).ToList();
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">Mis presupuestos</h1>
+    <a asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-circle me-1"></i>Nuevo presupuesto</a>
+</div>
+
+@foreach (var r in enRiesgo)
+{
+    var excedido = r.Estado == EstadoPresupuesto.Excedido;
+    <div class="alert @(excedido ? "alert-danger" : "alert-warning") d-flex align-items-center" role="alert">
+        <i class="bi @(excedido ? "bi-x-octagon" : "bi-exclamation-triangle") me-2"></i>
+        <div>
+            @if (excedido)
+            {
+                <text>Superaste el presupuesto de <strong>@r.Presupuesto.Categoria.Nombre</strong>: llevas $@r.Gastado.ToString("N2") de $@r.Presupuesto.MontoLimite.ToString("N2").</text>
+            }
+            else
+            {
+                <text>Ya usaste el @r.Porcentaje.ToString("0.#")% de tu presupuesto de <strong>@r.Presupuesto.Categoria.Nombre</strong>.</text>
+            }
+        </div>
+    </div>
+}
+
+@if (!Model.Any())
+{
+    <div class="card card-body text-center text-muted py-5">
+        <p class="mb-3">Todavía no tienes presupuestos. Define un límite para controlar tus gastos por categoría.</p>
+        <div><a asp-action="Create" class="btn btn-primary">Crear mi primer presupuesto</a></div>
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var r in Model)
+        {
+            var p = r.Presupuesto;
+            var color = r.Estado == EstadoPresupuesto.Excedido ? "danger" : r.Estado == EstadoPresupuesto.Alerta ? "warning" : "success";
+            var ancho = Math.Min(r.Porcentaje, 100m).ToString("0.#");
+            var fase = p.FechaFin.Date < hoy ? "Finalizado" : p.FechaInicio.Date > hoy ? "Próximo" : "Vigente";
+
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                            <h5 class="card-title fw-bold mb-0">@p.Categoria.Nombre</h5>
+                            <span class="badge bg-primary">@p.Periodo</span>
+                        </div>
+                        <p class="text-muted small mb-3">@p.FechaInicio.ToString("dd/MM/yyyy") al @p.FechaFin.ToString("dd/MM/yyyy") · @fase</p>
+
+                        <div class="d-flex justify-content-between small">
+                            <span>Gastado: <strong>$@r.Gastado.ToString("N2")</strong></span>
+                            <span>Límite: <strong>$@p.MontoLimite.ToString("N2")</strong></span>
+                        </div>
+
+                        <div class="progress my-2" role="progressbar" aria-valuenow="@ancho" aria-valuemin="0" aria-valuemax="100" style="height: 12px;">
+                            <div class="progress-bar bg-@(color)" style="width: @(ancho)%"></div>
+                        </div>
+
+                        <div class="d-flex justify-content-between small">
+                            <span class="@(r.Disponible < 0 ? "text-danger" : "text-muted")">@(r.Disponible < 0 ? "Excedido por" : "Disponible"): $@Math.Abs(r.Disponible).ToString("N2")</span>
+                            <span class="fw-semibold text-@(color)">@r.Porcentaje.ToString("0.#")%</span>
+                        </div>
+                    </div>
+
+                    <div class="card-footer bg-white border-0 pt-0 d-flex gap-2">
+                        <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil me-1"></i>Editar</a>
+                        <form asp-action="Delete" asp-route-id="@p.Id" method="post" onsubmit="return confirm('¿Seguro que deseas eliminar este presupuesto?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash me-1"></i>Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

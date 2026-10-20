@@ -1,0 +1,47 @@
+@model PresupuestoFormViewModel
+@{
+    var periodos = new[] { PeriodoPresupuesto.Mensual, PeriodoPresupuesto.Quincenal, PeriodoPresupuesto.Semanal };
+}
+
+<div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+<div class="row g-3">
+    <div class="col-12 col-md-6">
+        <label asp-for="CategoriaId" class="form-label"></label>
+        <select asp-for="CategoriaId" class="form-select">
+            <option value="">Selecciona una categoría</option>
+            @foreach (var categoria in Model.Categorias)
+            {
+                <option value="@categoria.Id" selected="@(Model.CategoriaId == categoria.Id)">@categoria.Nombre</option>
+            }
+        </select>
+        <span asp-validation-for="CategoriaId" class="text-danger small"></span>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <label asp-for="MontoLimite" class="form-label"></label>
+        <div class="input-group">
+            <span class="input-group-text">$</span>
+            <input asp-for="MontoLimite" type="number" step="0.01" min="0.01" class="form-control" inputmode="decimal" />
+        </div>
+        <span asp-validation-for="MontoLimite" class="text-danger small"></span>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <label asp-for="Periodo" class="form-label"></label>
+        <select asp-for="Periodo" class="form-select">
+            @foreach (var periodo in periodos)
+            {
+                <option value="@periodo" selected="@(Model.Periodo == periodo)">@periodo</option>
+            }
+        </select>
+        <div class="form-text">La fecha de fin se calcula sola según el período.</div>
+        <span asp-validation-for="Periodo" class="text-danger small"></span>
+    </div>
+
+    <div class="col-12 col-md-6">
+        <label asp-for="FechaInicio" class="form-label"></label>
+        <input asp-for="FechaInicio" type="date" class="form-control" />
+        <span asp-validation-for="FechaInicio" class="text-danger small"></span>
+    </div>
+</div>
