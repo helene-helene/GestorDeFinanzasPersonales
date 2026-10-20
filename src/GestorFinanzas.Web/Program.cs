@@ -20,9 +20,11 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ICuentaRepository, CuentaRepository>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<ITransaccionRepository, TransaccionRepository>();
+builder.Services.AddScoped<IPresupuestoRepository, PresupuestoRepository>();
 
 // Capa de lógica de negocio
 builder.Services.AddScoped<ITransaccionService, TransaccionService>();
+builder.Services.AddScoped<IPresupuestoService, PresupuestoService>();
 
 // Usuario actual. Mientras no esté integrado el login se usa el usuario de demostración.
 // Cuando el módulo de autenticación esté listo, solo hay que cambiar esta línea por una
@@ -60,3 +62,4 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
