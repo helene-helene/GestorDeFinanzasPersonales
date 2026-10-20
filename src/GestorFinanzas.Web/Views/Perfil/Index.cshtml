@@ -1,0 +1,78 @@
+@model PerfilViewModel
+@{
+    ViewData["Title"] = "Mi perfil";
+
+    // Iniciales para el círculo del perfil, por ejemplo "Ana Prueba" -> "AP"
+    var iniciales = string.Concat(Model.NombreGuardado
+        .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+        .Take(2)
+        .Select(p => char.ToUpper(p[0])));
+}
+
+@section Estilos {
+    <link rel="stylesheet" href="~/css/perfil.css" asp-append-version="true" />
+}
+
+<div class="perfil-figma">
+    <h1 class="pf-encabezado">Mi perfil</h1>
+
+    <section class="pf-panel pf-hero">
+        <div class="pf-avatar">@(iniciales.Length > 0 ? iniciales : "?")</div>
+        <div>
+            <h2>@Model.NombreGuardado</h2>
+            <p>@Model.CorreoGuardado</p>
+        </div>
+    </section>
+
+    <div class="pf-grid">
+        <form asp-action="Index" method="post" class="pf-panel" novalidate>
+            <div class="pf-panel-titulo">
+                <h2>Datos personales</h2>
+                <span class="pf-icono"><i class="bi bi-person"></i></span>
+            </div>
+            <div asp-validation-summary="ModelOnly" role="alert"></div>
+
+            <label asp-for="Nombre"></label>
+            <input asp-for="Nombre" type="text" maxlength="100" autocomplete="name" />
+            <span asp-validation-for="Nombre"></span>
+
+            <label asp-for="Correo"></label>
+            <input asp-for="Correo" type="email" maxlength="150" autocomplete="email" />
+            <small class="pf-ayuda">Es el correo con el que inicias sesión.</small>
+            <span asp-validation-for="Correo"></span>
+
+            <div class="pf-acciones">
+                <button type="submit" class="pf-btn pf-btn-primario">Guardar cambios</button>
+                <a class="pf-btn pf-btn-borde" asp-action="Index">Cancelar</a>
+            </div>
+        </form>
+
+        <section class="pf-panel">
+            <div class="pf-panel-titulo">
+                <h2>Seguridad</h2>
+                <span class="pf-icono"><i class="bi bi-shield-lock"></i></span>
+            </div>
+
+            <div class="pf-dato">
+                <span>@Html.DisplayNameFor(m => m.FechaRegistro)</span>
+                <strong>@(Model.FechaRegistro == DateTime.MinValue ? "—" : Model.FechaRegistro.ToString("dd/MM/yyyy"))</strong>
+            </div>
+
+            <a class="pf-opcion" asp-action="CambiarContrasenia">
+                <strong>Cambiar contraseña</strong>
+                <b>›</b>
+            </a>
+
+            <form asp-controller="Acceso" asp-action="Logout" method="post" class="m-0">
+                <button type="submit" class="pf-opcion">
+                    <strong>Cerrar sesión</strong>
+                    <b>↗</b>
+                </button>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

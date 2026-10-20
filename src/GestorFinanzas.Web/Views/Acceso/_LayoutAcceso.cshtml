@@ -1,0 +1,24 @@
+@* Plantilla de las pantallas públicas: Iniciar sesión y Crear cuenta. *@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Gestor de Finanzas</title>
+    <link rel="stylesheet" href="~/css/acceso.css" asp-append-version="true" />
+</head>
+<body class="login-page">
+    <main class="login-layout">
+        <section class="login-art">
+            <span class="brand-mark">$</span>
+            <h1>Gestor de Finanzas Personales</h1>
+        </section>
+
+        <section class="login-form-side">
+            @RenderBody()
+        </section>
+    </main>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

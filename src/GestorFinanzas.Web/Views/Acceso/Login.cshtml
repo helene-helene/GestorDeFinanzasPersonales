@@ -1,0 +1,37 @@
+@model LoginViewModel
+@{
+    Layout = "_LayoutAcceso";
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<form asp-action="Login" method="post" class="login-card" novalidate>
+    <h2>Iniciar sesión</h2>
+
+    @if (TempData["Exito"] is string exito)
+    {
+        <div class="aviso-exito" role="status">@exito</div>
+    }
+    <div asp-validation-summary="ModelOnly" role="alert"></div>
+
+    <input type="hidden" asp-for="ReturnUrl" />
+
+    <label asp-for="Correo"></label>
+    <input asp-for="Correo" type="email" autocomplete="username" autofocus />
+    <span asp-validation-for="Correo"></span>
+
+    <label asp-for="Contrasenia"></label>
+    <input asp-for="Contrasenia" autocomplete="current-password" />
+    <span asp-validation-for="Contrasenia"></span>
+
+    <div class="recordarme">
+        <input asp-for="Recordarme" />
+        <label asp-for="Recordarme"></label>
+    </div>
+
+    <button class="btn btn-primary btn-full" type="submit">Entrar</button>
+    <p class="signup">¿No tienes cuenta? <a asp-action="Registro">Regístrate</a></p>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

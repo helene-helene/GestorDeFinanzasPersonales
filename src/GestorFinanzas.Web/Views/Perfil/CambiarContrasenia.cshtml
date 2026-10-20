@@ -1,0 +1,38 @@
+@model CambiarContraseniaViewModel
+@{
+    ViewData["Title"] = "Cambiar contraseña";
+}
+
+@section Estilos {
+    <link rel="stylesheet" href="~/css/perfil.css" asp-append-version="true" />
+}
+
+<div class="perfil-figma">
+    <h1 class="pf-encabezado">Cambiar contraseña</h1>
+
+    <form asp-action="CambiarContrasenia" method="post" class="pf-panel pf-ancho" novalidate>
+        <div asp-validation-summary="ModelOnly" role="alert"></div>
+
+        <label asp-for="ContraseniaActual"></label>
+        <input asp-for="ContraseniaActual" autocomplete="current-password" />
+        <span asp-validation-for="ContraseniaActual"></span>
+
+        <label asp-for="ContraseniaNueva"></label>
+        <input asp-for="ContraseniaNueva" autocomplete="new-password" />
+        <small class="pf-ayuda">Mínimo 8 caracteres, con al menos una letra y un número.</small>
+        <span asp-validation-for="ContraseniaNueva"></span>
+
+        <label asp-for="ConfirmarContrasenia"></label>
+        <input asp-for="ConfirmarContrasenia" autocomplete="new-password" />
+        <span asp-validation-for="ConfirmarContrasenia"></span>
+
+        <div class="pf-acciones">
+            <button type="submit" class="pf-btn pf-btn-primario">Cambiar contraseña</button>
+            <a class="pf-btn pf-btn-borde" asp-action="Index">Volver a mi perfil</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

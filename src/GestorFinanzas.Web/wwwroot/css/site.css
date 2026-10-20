@@ -1,0 +1,9 @@
+/* Estilos provisionales del módulo de movimientos. El módulo de interfaz los reemplaza por la identidad visual final. */
+.table td, .table th { vertical-align: middle; }
+.btn-check:checked + .btn-outline-success { color: #fff; }
+.btn-check:checked + .btn-outline-danger { color: #fff; }
+
+/* Quita las flechitas de los campos numéricos (por ejemplo el monto), para escribir el valor directamente. */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+input[type=number] { -moz-appearance: textfield; appearance: textfield; }

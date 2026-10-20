@@ -1,0 +1,132 @@
+/* Estilos de Mi perfil y Cambiar contraseña, con los colores y letras del diseño de Figma.
+   Todo va dentro de .perfil-figma y con el prefijo "pf-" para no chocar con Bootstrap,
+   que todavía usa el resto del sitio. */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+.perfil-figma {
+    --cream: #fbf6ef;
+    --paper: #fffdf9;
+    --terracotta: #bf6042;
+    --terracotta-dark: #9f482f;
+    --coffee: #3e2c26;
+    --muted: #887970;
+    --line: #eee2d7;
+    --error: #b03a2e;
+    color: var(--coffee);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+}
+
+.perfil-figma h1,
+.perfil-figma h2 { font-family: 'Manrope', sans-serif; color: var(--coffee); }
+.perfil-figma h1 { font-size: 30px; font-weight: 800; letter-spacing: -1px; margin: 5px 0 8px; }
+.perfil-figma h2 { font-size: 17px; font-weight: 700; letter-spacing: -.35px; margin: 0; }
+
+.perfil-figma h1.pf-encabezado { margin-bottom: 22px; }
+
+.pf-panel {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px;
+}
+.pf-panel-titulo { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.pf-icono { color: var(--terracotta); font-size: 20px; }
+
+/* Tarjeta superior con las iniciales, el nombre y el correo */
+.pf-hero { display: flex; align-items: center; gap: 17px; padding: 24px; margin-bottom: 18px; }
+.pf-avatar {
+    width: 66px;
+    height: 66px;
+    flex: 0 0 66px;
+    border-radius: 22px;
+    display: grid;
+    place-items: center;
+    background: #f1d7c8;
+    color: var(--terracotta-dark);
+    font: 800 20px 'Manrope', sans-serif;
+}
+.pf-hero h2 { font-size: 19px; }
+.pf-hero p { font-size: 12px; color: var(--muted); margin: 5px 0 0; overflow-wrap: anywhere; }
+
+.pf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 17px; }
+.pf-ancho { max-width: 560px; }
+
+/* Campos de formulario */
+.pf-panel label { display: block; font-size: 12px; font-weight: 700; margin: 16px 0 8px; }
+.pf-panel input[type=text],
+.pf-panel input[type=email],
+.pf-panel input[type=password] {
+    width: 100%;
+    min-height: 43px;
+    padding: 11px 13px;
+    border: 1px solid #e9dcd0;
+    background: #fffefa;
+    border-radius: 9px;
+    outline: none;
+    color: var(--coffee);
+}
+.pf-panel input:focus { border-color: #cb8468; box-shadow: 0 0 0 3px #bf60421a; }
+.pf-ayuda { display: block; font-size: 11px; color: var(--muted); margin-top: 6px; }
+
+.pf-dato { padding: 14px 0; border-top: 1px solid #f0e6dd; display: flex; flex-direction: column; gap: 5px; }
+.pf-dato span { font-size: 10px; color: var(--muted); }
+.pf-dato strong { font-size: 12px; }
+
+/* Filas de opciones (Cambiar contraseña, Cerrar sesión) */
+.pf-opcion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 14px 0;
+    border: 0;
+    border-top: 1px solid #f0e6dd;
+    background: transparent;
+    color: var(--coffee);
+    text-align: left;
+    text-decoration: none;
+}
+.pf-opcion:hover { color: var(--terracotta-dark); }
+.pf-opcion strong { display: block; font-size: 12px; }
+.pf-opcion b { font-size: 22px; color: #a58d7b; font-weight: 400; }
+
+/* Botones */
+.pf-acciones { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.pf-btn {
+    border: 1px solid transparent;
+    border-radius: 10px;
+    min-height: 42px;
+    padding: 0 17px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 12px;
+    text-decoration: none;
+    cursor: pointer;
+}
+.pf-btn-primario { background: var(--terracotta); color: #fff; }
+.pf-btn-primario:hover { background: var(--terracotta-dark); color: #fff; }
+.pf-btn-borde { background: transparent; border-color: #e4d3c6; color: var(--coffee); }
+.pf-btn-borde:hover { background: #fff6ed; color: var(--coffee); }
+
+/* Mensajes de validación de ASP.NET Core */
+.perfil-figma .field-validation-error { display: block; color: var(--error); font-size: 11px; margin-top: 5px; }
+.perfil-figma .input-validation-error { border-color: var(--error) !important; }
+.perfil-figma .validation-summary-valid { display: none; }
+.perfil-figma .validation-summary-errors {
+    background: #fbe9e5;
+    color: var(--error);
+    border-radius: 10px;
+    padding: 10px 13px;
+    font-size: 12px;
+    margin-bottom: 6px;
+}
+.perfil-figma .validation-summary-errors ul { margin: 0; padding: 0; list-style: none; }
+
+@media (max-width: 760px) {
+    .pf-grid { grid-template-columns: 1fr; }
+    .pf-hero { flex-wrap: wrap; }
+    .perfil-figma h1 { font-size: 26px; }
+}
