@@ -1,0 +1,2 @@
+wwwroot\js\site.js
+wwwroot\css\site.css

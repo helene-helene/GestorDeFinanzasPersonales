@@ -1,0 +1,52 @@
+@page
+@{
+    Layout = null;
+    ViewData["Title"] = "Iniciar sesión";
+}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Finanzas | Acceso</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body class="login-page">
+    <main class="login-layout">
+        <section class="login-art login-simple">
+            <div class="login-brand"><span class="brand-mark">$</span> Finanzas</div>
+            <div class="login-intro">
+                <p class="eyebrow">CONTROL FINANCIERO PERSONAL</p>
+                <h1>Cuida tu dinero.<br />Protege tu futuro.</h1>
+                <p>Organiza tus ingresos, controla tus gastos y revisa tus metas en un solo lugar.</p>
+            </div>
+            <div class="art-footer">Privacidad y organización para tus finanzas.</div>
+        </section>
+        <section class="login-form-side">
+            <form class="login-card" id="loginForm">
+                <div class="eyebrow">QUÉ BUENO VERTE</div>
+                <h2>¡Hola!</h2>
+                <p class="muted">Ingresa a tu cuenta para ver tus finanzas.</p>
+                <label for="email">Correo electrónico</label>
+                <input id="email" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" required />
+                <label for="password">Contraseña</label>
+                <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Mínimo 8 caracteres" required />
+                <button class="btn btn-primary btn-full" type="submit">Entrar <span>→</span></button>
+                <p class="signup">¿No tienes cuenta? <a href="#" id="registerLink">Regístrate</a></p>
+                <p class="form-message" id="authMessage" role="status" aria-live="polite"></p>
+            </form>
+            <form class="login-card" id="registerForm" hidden>
+                <div class="eyebrow">EMPIEZA AQUÍ</div><h2>Crea tu cuenta</h2>
+                <p class="muted">Tus datos de perfil se tomarán de este registro.</p>
+                <label for="registerName">Nombre completo</label><input id="registerName" name="name" type="text" autocomplete="name" maxlength="80" placeholder="Ej. Ana Martínez" required />
+                <label for="registerEmail">Correo electrónico</label><input id="registerEmail" name="email" type="email" autocomplete="email" maxlength="200" placeholder="tu@correo.com" required />
+                <label for="registerPassword">Contraseña</label><input id="registerPassword" name="password" type="password" autocomplete="new-password" minlength="8" placeholder="Mínimo 8 caracteres" required />
+                <button class="btn btn-primary btn-full" type="submit">Crear cuenta <span>→</span></button>
+                <p class="signup">¿Ya tienes cuenta? <a href="#" id="loginLink">Inicia sesión</a></p>
+                <p class="form-message" id="registerMessage" role="status" aria-live="polite"></p>
+            </form>
+        </section>
+    </main>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+@page
+@using System.Security.Claims
+@using Finanzas.Models
+@inject Finanzas.Services.FinanceStore FinanceStore
+@{
+    ViewData["Title"] = "Notificaciones";
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+    var finance = userId is null ? new FinanceData() : await FinanceStore.GetAsync(userId);
+    var notifications = new List<(string Icon, string Css, string Title, string Message, string Date)>();
+    var now = DateTime.UtcNow;
+    var monthMovements = finance.Movements.Where(m => m.Date.Year == now.Year && m.Date.Month == now.Month).ToList();
+    foreach (var categoryBudget in finance.CategoryBudgets.Where(x => x.Value > 0))
+    {
+        var spent = monthMovements.Where(m => m.Kind == "Gasto" && string.Equals(m.Category, categoryBudget.Key, StringComparison.OrdinalIgnoreCase)).Sum(m => m.Amount);
+        var percent = spent / categoryBudget.Value * 100;
+        if (spent > 0 && percent >= 80)
+        {
+            notifications.Add(("!", "notify-warning", $"Presupuesto de {categoryBudget.Key} al {Math.Round(percent)}%", $"Has gastado ${spent:0.00} de ${categoryBudget.Value:0.00}. Revisa tus gastos de esta categoría.", "Este mes"));
+        }
+    }
+    foreach (var goal in finance.Goals.Where(g => g.Target > 0 && g.Saved >= g.Target * 0.8m && g.Saved < g.Target))
+    {
+        notifications.Add(("%", "notify-goal", $"Meta: {goal.Name}", $"Has ahorrado ${goal.Saved:0.00} de ${goal.Target:0.00}. ¡Estás cerca de cumplir tu meta!", "Meta de ahorro"));
+    }
+}
+<div class="page-heading"><div><div class="eyebrow">TU CUENTA</div><h1>Notificaciones</h1><p class="muted">Avisos basados en tus movimientos, presupuestos y metas.</p></div></div>
+@if (notifications.Count == 0)
+{
+    <section class="panel" style="padding:32px;text-align:center">
+        <div style="font-size:28px;margin-bottom:12px;color:#9a625e">✓</div>
+        <h2 style="margin-bottom:8px">Todavía no tienes notificaciones</h2>
+        <p class="muted">Cuando registres movimientos, definas presupuestos o avances en tus metas, aquí aparecerán los avisos que correspondan.</p>
+        <a asp-page="/Movement" class="btn btn-primary" style="margin-top:16px">Registrar movimiento</a>
+    </section>
+}
+else
+{
+    <section class="panel notification-list">
+        @foreach (var notification in notifications)
+        {
+            <article class="notification-item">
+                <div class="notification-icon @notification.Css">@notification.Icon</div>
+                <div class="notification-copy"><div class="notification-title"><strong>@notification.Title</strong></div><p>@notification.Message</p><small>@notification.Date</small></div>
+            </article>
+        }
+    </section>
+}

@@ -1,0 +1,17 @@
+@page
+@{
+    ViewData["Title"] = "Nuevo movimiento";
+}
+<div class="page-heading"><div class="eyebrow">REGISTRA TU ACTIVIDAD</div><h1>Nuevo movimiento</h1><p class="muted">Registra ingresos y gastos para mantener tu información al día</p></div>
+<div class="form-layout">
+    <form class="panel form-panel" id="movementForm">
+        <div class="segmented"><button type="button" class="segment active" data-kind="Gasto">↘ Gasto</button><button type="button" class="segment" data-kind="Ingreso">↗ Ingreso</button></div><input type="hidden" id="movementKind" value="Gasto" />
+        <label for="amount">Monto</label><div class="money-input"><span>$</span><input id="amount" type="number" min="0.01" step="0.01" placeholder="0.00" required /></div>
+        <label for="description">Descripción</label><input id="description" type="text" placeholder="Ej. Uber Eats" required />
+        <div class="suggestion"><span class="ai-symbol small">✦</span><div><strong>Sugerencia inteligente</strong><p>Categoría sugerida: <b>Comida</b></p></div><button type="button" class="text-link" id="applySuggestion">Aplicar</button></div>
+        <label>Categoría</label><div class="category-picker"><button type="button" class="category-choice selected" data-category="Comida"><span class="category-icon food">C</span>Comida</button><button type="button" class="category-choice" data-category="Transporte"><span class="category-icon transport">T</span>Transporte</button><button type="button" class="category-choice" data-category="Gastos personales"><span class="category-icon leisure">GP</span>Gastos personales</button><button type="button" class="category-choice" data-category="Libros"><span class="category-icon books">L</span>Libros</button></div><input type="hidden" id="category" value="Comida" />
+        <label for="note">Nota <span class="muted">(opcional)</span></label><textarea id="note" rows="3" placeholder="Ej. almuerzo con compañeros"></textarea>
+        <button class="btn btn-primary btn-full" type="submit">Guardar movimiento <span>→</span></button><p class="form-message" id="movementMessage" aria-live="polite"></p>
+    </form>
+    <aside class="tip-card"><div class="tip-illustration">✦</div><h3>Un hábito a la vez</h3><p>Registrar tus gastos, incluso los pequeños, te ayuda a entender a dónde va tu dinero.</p><div class="tip-divider"></div><div class="tip-stat"><span>Gastos registrados</span><strong id="movementCount">3</strong></div><div class="tip-stat"><span>Gastado este mes</span><strong id="spentTotal">$77.50</strong></div></aside>
+</div>

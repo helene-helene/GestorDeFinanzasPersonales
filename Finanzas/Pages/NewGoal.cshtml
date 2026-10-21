@@ -1,0 +1,17 @@
+@page
+@{
+    ViewData["Title"] = "Nueva meta";
+}
+<div class="page-heading"><a class="back-link" asp-page="/Goals">← Volver a mis metas</a><div class="eyebrow">UN SUEÑO A LA VEZ</div><h1>Nueva meta</h1><p class="muted">Define tu objetivo y empieza a construirlo.</p></div>
+<div class="form-layout">
+<form class="panel form-panel" id="goalForm">
+    <label for="goalName">Nombre de la meta</label><input id="goalName" type="text" placeholder="Ej. Fondo de emergencia" required />
+    <label for="goalTarget">Monto objetivo</label><div class="money-input"><span>$</span><input id="goalTarget" type="number" min="1" step="0.01" placeholder="0.00" required /></div>
+    <label for="goalSaved">Ahorrado hasta hoy</label><div class="money-input"><span>$</span><input id="goalSaved" type="number" min="0" step="0.01" value="0.00" required /></div>
+    <label for="goalDate">Fecha límite <span class="muted">(opcional)</span></label><input id="goalDate" type="date" />
+    <div class="goal-preview"><div class="goal-emoji goal-laptop">◎</div><div><strong>Tu meta empieza aquí</strong><p>La constancia importa más que la cantidad.</p></div></div>
+    <button class="btn btn-primary btn-full" type="submit">Guardar meta <span>→</span></button><a class="btn btn-outline btn-full centered-btn" asp-page="/Goals">Cancelar</a>
+    <p class="form-message" id="goalFormMessage" aria-live="polite"></p>
+</form>
+<aside class="tip-card"><div class="tip-illustration">☼</div><h3>Consejo para ahorrar</h3><p>Divide tu objetivo en aportes pequeños semanales. Así tu meta se sentirá más alcanzable.</p><div class="tip-divider"></div><strong>Tu futuro yo te lo agradecerá.</strong></aside>
+</div>

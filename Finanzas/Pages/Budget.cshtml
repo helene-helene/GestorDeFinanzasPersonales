@@ -1,0 +1,8 @@
+@page
+@{
+    ViewData["Title"] = "Presupuesto";
+}
+<div class="page-heading heading-with-action"><div><div class="eyebrow">ORGANIZA TU DINERO</div><h1>Tu presupuesto</h1><p class="muted">Define límites y revisa cuánto te queda.</p></div><button class="btn btn-primary" id="editBudget">＋ Nuevo presupuesto</button></div>
+<section class="budget-summary"><div><span class="muted">Presupuesto mensual</span><strong id="budgetMonthly">$0.00</strong><small>Límite definido</small></div><div><span class="muted">Gastado</span><strong id="budgetSpent">$0.00</strong><small class="text-terracotta" id="budgetPercent">0% del presupuesto</small></div><div><span class="muted">Te queda</span><strong class="text-olive" id="budgetRemaining">$0.00</strong><small>Disponible</small></div></section>
+<section class="panel budget-panel"><div class="panel-heading"><div><h2>Por categoría</h2><p class="muted">Lleva el control de tus límites</p></div><span class="pill" id="budgetCategoryCount">0 categorías</span></div><div id="budgetLines"><p class="muted">Aún no has configurado categorías.</p></div></section>
+<div class="notice warning-notice" id="budgetNotice" hidden><span class="notice-icon">!</span><div><strong id="budgetNoticeTitle">Aviso de presupuesto</strong><p id="budgetNoticeText"></p></div></div>

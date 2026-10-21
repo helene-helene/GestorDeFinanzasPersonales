@@ -1,0 +1,18 @@
+[
+  {
+    "Id": "d0124ac7e3e740b2ac47751bf7b4bc78",
+    "Name": "Helen Mej\u00EDa",
+    "Email": "hmejiacea07@gmail.com",
+    "PasswordHash": "mR7tkEEcasBvS20ioeJ/E1w31FJyh4NMSOU1X51ghxk=",
+    "PasswordSalt": "dPtMRp2Obqko\u002BVhL7gSltg==",
+    "CreatedAt": "2026-10-16T04:19:27.0734686Z"
+  },
+  {
+    "Id": "601d71cda21948ce8e94905ede894983",
+    "Name": "Joel",
+    "Email": "joel@gmail.com",
+    "PasswordHash": "lPXVPWK6EcSyUF9BLyvaf\u002BU7pqZk/\u002B5gQ3VLdkIQikk=",
+    "PasswordSalt": "K6rRf0M5/yAlCVqrJEhRYw==",
+    "CreatedAt": "2026-10-16T04:24:41.5970085Z"
+  }
+]
