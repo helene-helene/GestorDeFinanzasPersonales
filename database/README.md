@@ -1,30 +1,15 @@
 # Base de datos
 
-Motor: **SQL Server** (2019 o más reciente). Nombre de la base: `GestorFinanzasDB`.
+El sistema usa SQL Server con una base llamada `GestorFinanzasDB`. Hay dos formas de crearla, y solo se debe usar una sobre la misma base.
 
-## Opción A (recomendada): que la aplicación la cree sola
+La forma recomendada es dejar que la aplicación la cree sola: con la opción `AplicarMigracionesAlIniciar` activada, que viene así por defecto en `appsettings.json`, al arrancar se crea la base, se aplican las migraciones y se cargan las categorías iniciales.
 
-Con `BaseDeDatos:AplicarMigracionesAlIniciar` en `true` (valor por defecto en `appsettings.json`), al arrancar la
-aplicación se crea la base de datos, se aplican las migraciones y se cargan las categorías iniciales.
-Con `BaseDeDatos:CargarDatosDemo` en `true` también se crea el usuario de demostración.
-No hay que ejecutar ningún script.
+La otra forma es crearla a mano desde SQL Server Management Studio, ejecutando estos scripts en orden:
 
-## Opción B: crearla a mano desde SSMS
+1. `01_crear_esquema.sql` crea la base, las 8 tablas, sus restricciones e índices, y las categorías iniciales. También registra la migración inicial para que la aplicación no vuelva a crear las tablas.
+2. `02_datos_demo.sql` carga el usuario de demostración con cuentas, movimientos, presupuestos, metas, recomendaciones y notificaciones.
+3. `03_consultas_utiles.sql` tiene consultas para revisar los datos; no modifica nada.
 
-Ejecuta los scripts en este orden:
+Si se quiere empezar de cero, se elimina la base `GestorFinanzasDB` desde SQL Server Management Studio y se vuelve a crear con una sola de las dos formas.
 
-| Orden | Archivo | Qué hace |
-|---|---|---|
-| 1 | `01_crear_esquema.sql` | Crea la base de datos, las 8 tablas, restricciones, índices y las categorías iniciales. Registra la migración `InitialCreate` para que la aplicación no intente crear las tablas otra vez. |
-| 2 | `02_datos_demo.sql` | Carga el usuario de demostración con cuentas, movimientos, presupuestos, metas, recomendaciones y notificaciones. |
-| 3 | `03_consultas_utiles.sql` | Consultas para revisar los datos y comprobar reglas (no modifica nada). |
-
-> Usa **una** de las dos opciones sobre la misma base. Si ya la creó la aplicación y quieres empezar de cero,
-> elimina la base `GestorFinanzasDB` desde SSMS y vuelve a empezar.
-
-## Usuario de demostración
-
-- Correo: `demo@estudiante.udb.edu.sv`
-- Contraseña: `Demo1234!`
-
-Es solo para desarrollo y pruebas. En un despliegue real se desactiva con `BaseDeDatos:CargarDatosDemo = false`.
+Usuario de demostración: `demo@estudiante.udb.edu.sv`, contraseña `Demo1234!`. Es solo para desarrollo y pruebas.
