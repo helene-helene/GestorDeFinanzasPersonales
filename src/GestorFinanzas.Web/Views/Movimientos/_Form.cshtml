@@ -1,0 +1,57 @@
+@model MovimientoFormViewModel
+@{
+    var hoy = DateTime.Today.ToString("yyyy-MM-dd");
+}
+
+<div asp-validation-summary="ModelOnly" class="validation-summary-errors" role="alert"></div>
+
+<div class="segmented" role="radiogroup" aria-label="Tipo de movimiento">
+    @foreach (var tipo in TipoMovimiento.Todos)
+    {
+        <input type="radio" name="Tipo" id="tipo-@tipo" value="@tipo" checked="@(Model.Tipo == tipo)" autocomplete="off" />
+        <label class="segment" for="tipo-@tipo">@(tipo == TipoMovimiento.Gasto ? "↘︎ Gasto" : "↗︎ Ingreso")</label>
+    }
+</div>
+<span asp-validation-for="Tipo" class="field-error"></span>
+
+<label asp-for="Monto"></label>
+<div class="money-input"><span>$</span><input asp-for="Monto" type="number" step="0.01" min="0.01" inputmode="decimal" placeholder="0.00" /></div>
+<span asp-validation-for="Monto" class="field-error"></span>
+
+<label asp-for="Descripcion"></label>
+<input asp-for="Descripcion" maxlength="200" placeholder="Ej. Uber Eats" autocomplete="off" />
+<span asp-validation-for="Descripcion" class="field-error"></span>
+
+<div class="suggestion" id="sugerenciaIA" data-url="@Url.Action("SugerirCategoria", "Movimientos")" hidden>
+    <span class="ai-symbol small">✦</span>
+    <div>
+        <strong>Sugerencia inteligente</strong>
+        <p>Categoría sugerida: <b id="sugerenciaCategoria"></b></p>
+        <small class="muted" id="sugerenciaMotivo"></small>
+    </div>
+    <button type="button" class="text-link" id="aplicarSugerencia">Aplicar</button>
+</div>
+
+<label asp-for="CategoriaId"></label>
+<select asp-for="CategoriaId">
+    <option value="">Selecciona una categoría</option>
+    @foreach (var categoria in Model.Categorias)
+    {
+        <option value="@categoria.Id" data-tipo="@categoria.Tipo" selected="@(Model.CategoriaId == categoria.Id)">@categoria.Nombre</option>
+    }
+</select>
+<span asp-validation-for="CategoriaId" class="field-error"></span>
+
+<label asp-for="CuentaId"></label>
+<select asp-for="CuentaId">
+    <option value="">Selecciona una cuenta</option>
+    @foreach (var cuenta in Model.Cuentas)
+    {
+        <option value="@cuenta.Id" selected="@(Model.CuentaId == cuenta.Id)">@cuenta.NombreCuenta (@cuenta.TipoCuenta) · @Formato.Dinero(cuenta.SaldoActual)</option>
+    }
+</select>
+<span asp-validation-for="CuentaId" class="field-error"></span>
+
+<label asp-for="Fecha"></label>
+<input asp-for="Fecha" type="date" max="@hoy" />
+<span asp-validation-for="Fecha" class="field-error"></span>

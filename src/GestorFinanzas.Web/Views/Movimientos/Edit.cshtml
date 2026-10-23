@@ -1,0 +1,30 @@
+@model MovimientoFormViewModel
+@{
+    ViewData["Title"] = "Editar movimiento";
+}
+
+<div class="page-heading">
+    <a class="back-link" asp-action="Index">← Volver a movimientos</a>
+    <div class="eyebrow">CORRIGE TU REGISTRO</div>
+    <h1>Editar movimiento</h1>
+    <p class="muted">El saldo de la cuenta se ajusta automáticamente.</p>
+</div>
+
+<div class="form-layout">
+    <form asp-action="Edit" asp-route-id="@Model.Id" method="post" class="panel form-panel" novalidate>
+        <input type="hidden" asp-for="Id" />
+        <partial name="_Form" model="Model" />
+        <button class="btn btn-primary btn-full" type="submit">Guardar cambios <span>→</span></button>
+        <a class="btn btn-outline btn-full centered-btn" asp-action="Index">Cancelar</a>
+    </form>
+    <aside class="tip-card">
+        <div class="tip-illustration">✦</div>
+        <h3>Revisa antes de guardar</h3>
+        <p>Si cambias el monto o la cuenta, los saldos de las cuentas se recalculan.</p>
+    </aside>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/movimientos.js" asp-append-version="true"></script>
+}

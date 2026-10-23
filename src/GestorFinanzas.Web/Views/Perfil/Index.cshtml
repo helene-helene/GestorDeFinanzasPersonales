@@ -1,0 +1,56 @@
+@model PerfilViewModel
+@{
+    ViewData["Title"] = "Mi perfil";
+    var iniciales = Presentacion.Iniciales(Model.Nombre);
+}
+
+<div class="page-heading">
+    <div class="eyebrow">TU ESPACIO PERSONAL</div>
+    <h1>Mi perfil</h1>
+    <p class="muted">Administra tu cuenta y tus datos.</p>
+</div>
+
+<section class="profile-hero panel">
+    <div class="profile-avatar">@iniciales</div>
+    <div class="profile-main">
+        <h2>@Model.Nombre</h2>
+        <p>@Model.Correo</p>
+        <span class="pill pill-green">Mi cuenta</span>
+    </div>
+</section>
+
+<div class="profile-grid">
+    <form asp-action="Index" method="post" class="panel profile-section form-panel" novalidate>
+        <div class="panel-heading"><h2>Datos personales</h2><span class="section-icon">♙</span></div>
+        <div asp-validation-summary="ModelOnly" class="validation-summary-errors" role="alert"></div>
+
+        <label asp-for="Nombre"></label>
+        <input asp-for="Nombre" maxlength="100" autocomplete="name" />
+        <span asp-validation-for="Nombre" class="field-error"></span>
+
+        <label asp-for="Correo"></label>
+        <input asp-for="Correo" type="email" maxlength="150" autocomplete="email" />
+        <p class="hint">Es el correo con el que inicias sesión.</p>
+        <span asp-validation-for="Correo" class="field-error"></span>
+
+        <button type="submit" class="btn btn-primary btn-full">Guardar cambios <span>→</span></button>
+    </form>
+
+    <section class="panel profile-section">
+        <div class="panel-heading"><h2>Cuenta</h2><span class="section-icon">⚙︎</span></div>
+        <div class="profile-field"><span>Estado de la cuenta</span><strong>Activa</strong></div>
+        <div class="profile-field"><span>@Html.DisplayNameFor(m => m.FechaRegistro)</span><strong>@(Model.FechaRegistro == DateTime.MinValue ? "—" : Formato.Fecha(Model.FechaRegistro))</strong></div>
+        <a class="settings-row" asp-action="CambiarContrasenia">
+            <span><strong>Cambiar contraseña</strong><small>Actualiza la seguridad de tu cuenta</small></span><b>›</b>
+        </a>
+        <form asp-controller="Acceso" asp-action="Logout" method="post" class="inline">
+            <button type="submit" class="settings-row signout-row">
+                <span><strong>Cerrar sesión</strong><small>Salir de tu cuenta</small></span><b>↗︎</b>
+            </button>
+        </form>
+    </section>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

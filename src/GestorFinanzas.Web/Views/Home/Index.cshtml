@@ -1,0 +1,78 @@
+@model ResumenInicio
+@{
+    ViewData["Title"] = "Inicio";
+    var primerNombre = (Model.Nombre ?? string.Empty).Split(' ', StringSplitOptions.RemoveEmptyEntries).FirstOrDefault() ?? "";
+    var maxCategoria = Model.Categorias.Count == 0 ? 0m : Model.Categorias.Max(c => c.Total);
+}
+
+<div class="page-heading heading-with-action">
+    <div>
+        <div class="eyebrow">RESUMEN PERSONAL</div>
+        <h1>Hola@(string.IsNullOrEmpty(primerNombre) ? "" : ", " + primerNombre)</h1>
+        <p class="muted">Este es el resumen de tus finanzas de este mes.</p>
+    </div>
+    <a class="btn btn-primary" asp-controller="Movimientos" asp-action="Create">＋ Nuevo movimiento</a>
+</div>
+
+<section class="hero-balance">
+    <div class="balance-copy">
+        <span class="light-label">@(Model.PresupuestoMes > 0 ? "SALDO DISPONIBLE ESTE MES" : "SALDO TOTAL DE TUS CUENTAS")</span>
+        <div class="balance-amount">@Formato.Dinero(Model.Disponible)</div>
+        @if (Model.PresupuestoMes > 0)
+        {
+            <p>Has gastado <strong>@Formato.Dinero(Model.GastosMes)</strong> de @Formato.Dinero(Model.PresupuestoMes) este mes</p>
+            <div class="progress-track"><span style="width:@(Model.PorcentajeUsado.ToString("0", System.Globalization.CultureInfo.InvariantCulture))%"></span></div>
+            <div class="balance-foot"><span>@Model.PorcentajeUsado% utilizado</span><span>Presupuesto: @Formato.Dinero(Model.PresupuestoMes)</span></div>
+        }
+        else
+        {
+            <p>Has gastado <strong>@Formato.Dinero(Model.GastosMes)</strong> este mes. Define un presupuesto para ver cuánto te queda.</p>
+            <a class="btn btn-light" asp-controller="Presupuesto" asp-action="Create">Crear presupuesto <span>→</span></a>
+        }
+    </div>
+</section>
+
+<div class="section-heading">
+    <div><h2>Tu resumen</h2><p class="muted">Así se distribuye tu dinero</p></div>
+    <a asp-controller="Presupuesto" asp-action="Index" class="text-link">Ver presupuesto →</a>
+</div>
+
+<div class="stat-grid">
+    <article class="stat-card"><div class="stat-icon icon-peach">↘︎</div><span class="muted">Gastos del mes</span><strong>@Formato.Dinero(Model.GastosMes)</strong><small class="positive">Gastos registrados</small></article>
+    <article class="stat-card"><div class="stat-icon icon-gold">＋</div><span class="muted">Ingresos del mes</span><strong>@Formato.Dinero(Model.IngresosMes)</strong><small>Ingresos registrados</small></article>
+    <article class="stat-card"><div class="stat-icon icon-sage">◎</div><span class="muted">Metas activas</span><strong>@Model.MetasActivas @(Model.MetasActivas == 1 ? "meta" : "metas")</strong><small>Metas pendientes</small></article>
+</div>
+
+<div class="dashboard-grid">
+    <section class="panel">
+        <div class="panel-heading">
+            <div><h2>Gastos por categoría</h2><p class="muted">Tus gastos registrados</p></div>
+            <span class="pill">Este mes</span>
+        </div>
+        @if (Model.Categorias.Count == 0)
+        {
+            <p class="muted">Todavía no tienes gastos registrados este mes.</p>
+        }
+        else
+        {
+            foreach (var c in Model.Categorias)
+            {
+                var ancho = maxCategoria <= 0 ? 0 : Math.Round(c.Total / maxCategoria * 100m, 0);
+                <div class="category-row">
+                    <span class="category-icon @Presentacion.ClaseDeColor(c.CategoriaId)">@Presentacion.Iniciales(c.Nombre)</span>
+                    <div class="category-info">
+                        <div><span>@c.Nombre</span><span>@Formato.Dinero(c.Total)</span></div>
+                        <div class="mini-track"><i style="width:@(ancho.ToString("0", System.Globalization.CultureInfo.InvariantCulture))%;background:#c9704f"></i></div>
+                    </div>
+                </div>
+            }
+        }
+    </section>
+
+    <section class="ai-card">
+        <div class="ai-title"><span class="ai-symbol">✦</span><div><span class="eyebrow">TU ASISTENTE</span><h2>Una idea para ti</h2></div></div>
+        <p>@(string.IsNullOrWhiteSpace(Model.Consejo) ? "Registra tus ingresos y gastos para ver un resumen de tu dinero." : Model.Consejo)</p>
+        <a asp-controller="Recomendaciones" asp-action="Index" class="btn btn-light">Ver recomendaciones <span>→</span></a>
+        <div class="sparkle">✦</div>
+    </section>
+</div>

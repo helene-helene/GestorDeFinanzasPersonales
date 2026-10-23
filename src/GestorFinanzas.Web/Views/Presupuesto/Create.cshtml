@@ -1,0 +1,54 @@
+@model PresupuestoFormViewModel
+@{
+    ViewData["Title"] = "Nuevo presupuesto";
+    var periodos = new[] { PeriodoPresupuesto.Mensual, PeriodoPresupuesto.Quincenal, PeriodoPresupuesto.Semanal };
+}
+
+<div class="page-heading">
+    <a class="back-link" asp-action="Index">← Volver al presupuesto</a>
+    <div class="eyebrow">PON UN LÍMITE</div>
+    <h1>Nuevo presupuesto</h1>
+    <p class="muted">Elige una categoría de gasto y cuánto quieres gastar como máximo.</p>
+</div>
+
+<div class="form-layout">
+    <form asp-action="Create" method="post" class="panel form-panel" novalidate>
+        <div asp-validation-summary="ModelOnly" class="validation-summary-errors" role="alert"></div>
+
+        <label asp-for="CategoriaId"></label>
+        <select asp-for="CategoriaId">
+            <option value="">Selecciona una categoría</option>
+            @foreach (var c in Model.Categorias)
+            {
+                <option value="@c.Id" selected="@(Model.CategoriaId == c.Id)">@c.Nombre</option>
+            }
+        </select>
+        <span asp-validation-for="CategoriaId" class="field-error"></span>
+
+        <label asp-for="MontoLimite"></label>
+        <div class="money-input"><span>$</span><input asp-for="MontoLimite" type="number" step="0.01" min="0.01" inputmode="decimal" placeholder="0.00" /></div>
+        <span asp-validation-for="MontoLimite" class="field-error"></span>
+
+        <label>Período</label>
+        <div class="segmented" role="radiogroup" aria-label="Período">
+            @foreach (var p in periodos)
+            {
+                <input type="radio" name="Periodo" id="periodo-@p" value="@p" checked="@(Model.Periodo == p)" autocomplete="off" />
+                <label class="segment" for="periodo-@p">@p</label>
+            }
+        </div>
+        <span asp-validation-for="Periodo" class="field-error"></span>
+
+        <button type="submit" class="btn btn-primary btn-full">Guardar presupuesto <span>→</span></button>
+        <a class="btn btn-outline btn-full centered-btn" asp-action="Index">Cancelar</a>
+    </form>
+    <aside class="tip-card">
+        <div class="tip-illustration">◔</div>
+        <h3>Límites realistas</h3>
+        <p>Empieza con lo que gastaste el mes pasado y réstale un poco. Te avisaremos al llegar al 80% y al 100%.</p>
+    </aside>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

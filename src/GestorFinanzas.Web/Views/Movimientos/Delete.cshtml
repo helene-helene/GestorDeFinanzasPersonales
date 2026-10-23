@@ -1,0 +1,26 @@
+@model Transaccion
+@{
+    ViewData["Title"] = "Eliminar movimiento";
+    var esIngreso = Model.Tipo == TipoMovimiento.Ingreso;
+}
+
+<div class="page-heading">
+    <a class="back-link" asp-action="Index">← Volver a movimientos</a>
+    <div class="eyebrow">CONFIRMA LA ACCIÓN</div>
+    <h1>Eliminar movimiento</h1>
+    <p class="muted">¿Seguro que quieres eliminar este movimiento? El saldo de la cuenta se ajustará automáticamente.</p>
+</div>
+
+<section class="panel" style="max-width:640px">
+    <div class="profile-field"><span>Tipo</span><strong>@Model.Tipo</strong></div>
+    <div class="profile-field"><span>Monto</span><strong class="@(esIngreso ? "monto-ingreso" : "monto-gasto")">@Formato.Dinero(Model.Monto)</strong></div>
+    <div class="profile-field"><span>Fecha</span><strong>@Formato.Fecha(Model.Fecha)</strong></div>
+    <div class="profile-field"><span>Categoría</span><strong>@Model.Categoria.Nombre</strong></div>
+    <div class="profile-field"><span>Cuenta</span><strong>@Model.Cuenta.NombreCuenta</strong></div>
+    <div class="profile-field"><span>Descripción</span><strong>@(string.IsNullOrWhiteSpace(Model.Descripcion) ? "—" : Model.Descripcion)</strong></div>
+
+    <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="btn-row" style="margin-top:18px">
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        <a class="btn btn-outline" asp-action="Index">Cancelar</a>
+    </form>
+</section>

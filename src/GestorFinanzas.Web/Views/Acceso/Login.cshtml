@@ -1,0 +1,35 @@
+@model LoginViewModel
+@{
+    Layout = "_LayoutAcceso";
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<div class="eyebrow">QUÉ BUENO VERTE</div>
+<h2>¡Hola!</h2>
+<p class="muted">Ingresa a tu cuenta para ver tus finanzas.</p>
+
+<form asp-action="Login" method="post" novalidate>
+    <input type="hidden" asp-for="ReturnUrl" />
+    <div asp-validation-summary="ModelOnly" class="validation-summary-errors" role="alert"></div>
+
+    <label asp-for="Correo"></label>
+    <input asp-for="Correo" type="email" autocomplete="username" placeholder="tu@correo.com" autofocus />
+    <span asp-validation-for="Correo" class="field-error"></span>
+
+    <label asp-for="Contrasenia"></label>
+    <input asp-for="Contrasenia" autocomplete="current-password" placeholder="Tu contraseña" />
+    <span asp-validation-for="Contrasenia" class="field-error"></span>
+
+    <div class="check-row">
+        <input asp-for="Recordarme" />
+        <label asp-for="Recordarme"></label>
+    </div>
+
+    <button class="btn btn-primary btn-full" type="submit">Entrar <span>→</span></button>
+</form>
+
+<p class="signup">¿No tienes cuenta? <a asp-action="Registro">Regístrate</a></p>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

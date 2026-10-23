@@ -1,0 +1,83 @@
+@model ResumenPresupuesto
+@{
+    ViewData["Title"] = "Presupuesto";
+    var inv = System.Globalization.CultureInfo.InvariantCulture;
+}
+
+<div class="page-heading heading-with-action">
+    <div>
+        <div class="eyebrow">ORGANIZA TU DINERO</div>
+        <h1>Tu presupuesto</h1>
+        <p class="muted">Define límites y revisa cuánto te queda.</p>
+    </div>
+    <a class="btn btn-primary" asp-action="Create">＋ Nuevo presupuesto</a>
+</div>
+
+<section class="budget-summary">
+    <div><span class="muted">Presupuesto total</span><strong>@Formato.Dinero(Model.TotalLimite)</strong><small>Límites definidos</small></div>
+    <div><span class="muted">Gastado</span><strong>@Formato.Dinero(Model.TotalGastado)</strong><small class="text-terracotta">@Model.Porcentaje% del presupuesto</small></div>
+    <div><span class="muted">Te queda</span><strong class="@(Model.Disponible < 0 ? "text-terracotta" : "text-olive")">@Formato.Dinero(Model.Disponible)</strong><small>Disponible</small></div>
+</section>
+
+<section class="panel budget-panel">
+    <div class="panel-heading">
+        <div><h2>Por categoría</h2><p class="muted">Lleva el control de tus límites</p></div>
+        <span class="pill">@Model.Lineas.Count @(Model.Lineas.Count == 1 ? "categoría" : "categorías")</span>
+    </div>
+
+    @if (Model.Lineas.Count == 0)
+    {
+        <div class="empty-state" style="text-align:center;padding:12px 0">
+            <h2>Aún no has configurado categorías.</h2>
+            <p class="muted">Crea un presupuesto para empezar a controlar tus gastos.</p>
+            <a class="btn btn-primary" asp-action="Create">Crear presupuesto</a>
+        </div>
+    }
+    else
+    {
+        foreach (var l in Model.Lineas)
+        {
+            <div class="budget-line">
+                <div class="budget-line-top">
+                    <span class="category-icon @Presentacion.ClaseDeColor(l.CategoriaId)">@Presentacion.Iniciales(l.Categoria)</span>
+                    <div class="budget-line-title">
+                        <strong>@l.Categoria</strong>
+                        <small>@l.Periodo · @Formato.Fecha(l.FechaInicio) – @Formato.Fecha(l.FechaFin)</small>
+                    </div>
+                    <strong>@Formato.Dinero(l.Gastado) <small class="muted">/ @Formato.Dinero(l.Limite)</small></strong>
+                </div>
+                <div class="progress-track thick mini-track"><i style="width:@(Math.Min(100m, l.Porcentaje).ToString("0", inv))%;background:@(l.Superado ? "#b4452d" : "#c9704f")"></i></div>
+                <div class="line-foot">
+                    <span class="@(l.Porcentaje >= 80 ? "warning-text" : "")">@l.Porcentaje% utilizado</span>
+                    @if (l.Superado)
+                    {
+                        <span class="budget-over">Te pasaste por @Formato.Dinero(-l.Restante)</span>
+                    }
+                    else
+                    {
+                        <span>Te quedan @Formato.Dinero(l.Restante)</span>
+                    }
+                </div>
+                <div class="line-actions">
+                    <form asp-action="Delete" asp-route-id="@l.Id" method="post" onsubmit="return confirm('¿Eliminar este presupuesto?');">
+                        <button type="submit" class="link-danger">Eliminar</button>
+                    </form>
+                </div>
+            </div>
+        }
+    }
+</section>
+
+@{
+    var enRiesgo = Model.Lineas.Where(l => l.Superado || l.Porcentaje >= 80).ToList();
+}
+@if (enRiesgo.Count > 0)
+{
+    <div class="notice warning-notice">
+        <span class="notice-icon">!</span>
+        <div>
+            <strong>Aviso de presupuesto</strong>
+            <p>@string.Join(", ", enRiesgo.Select(l => $"{l.Categoria} ({l.Porcentaje}%)")) — revisa tus gastos en @(enRiesgo.Count == 1 ? "esta categoría" : "estas categorías").</p>
+        </div>
+    </div>
+}

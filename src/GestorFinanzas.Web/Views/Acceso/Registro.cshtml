@@ -1,0 +1,38 @@
+@model RegistroViewModel
+@{
+    Layout = "_LayoutAcceso";
+    ViewData["Title"] = "Crear cuenta";
+}
+
+<div class="eyebrow">EMPIEZA AQUÍ</div>
+<h2>Crea tu cuenta</h2>
+<p class="muted">Tus datos de perfil se tomarán de este registro.</p>
+
+<form asp-action="Registro" method="post" novalidate>
+    <div asp-validation-summary="ModelOnly" class="validation-summary-errors" role="alert"></div>
+
+    <label asp-for="Nombre"></label>
+    <input asp-for="Nombre" autocomplete="name" placeholder="Ej. Ana Martínez" autofocus />
+    <span asp-validation-for="Nombre" class="field-error"></span>
+
+    <label asp-for="Correo"></label>
+    <input asp-for="Correo" type="email" autocomplete="username" placeholder="tu@correo.com" />
+    <span asp-validation-for="Correo" class="field-error"></span>
+
+    <label asp-for="Contrasenia"></label>
+    <input asp-for="Contrasenia" autocomplete="new-password" placeholder="Mínimo 8 caracteres" />
+    <span asp-validation-for="Contrasenia" class="field-error"></span>
+    <p class="hint">Mínimo 8 caracteres, con al menos una letra y un número.</p>
+
+    <label asp-for="ConfirmarContrasenia"></label>
+    <input asp-for="ConfirmarContrasenia" autocomplete="new-password" />
+    <span asp-validation-for="ConfirmarContrasenia" class="field-error"></span>
+
+    <button class="btn btn-primary btn-full" type="submit">Crear cuenta <span>→</span></button>
+</form>
+
+<p class="signup">¿Ya tienes cuenta? <a asp-action="Login">Inicia sesión</a></p>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
