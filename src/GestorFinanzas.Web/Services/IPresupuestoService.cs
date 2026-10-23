@@ -1,22 +1,23 @@
-using GestorFinanzas.Web.Models;
 using GestorFinanzas.Web.Models.Entities;
+using GestorFinanzas.Web.Models.Resumenes;
 
 namespace GestorFinanzas.Web.Services;
 
 public interface IPresupuestoService
 {
-    Task<IReadOnlyList<PresupuestoResumen>> ListarAsync();
-    Task<Presupuesto?> ObtenerAsync(int id);
+    // Presupuestos vigentes hoy con lo gastado en cada uno.
+    Task<ResumenPresupuesto> ObtenerResumenAsync();
+    Task<IReadOnlyList<Categoria>> ListarCategoriasDeGastoAsync();
 
-    /// <exception cref="Infrastructure.ReglaNegocioException">Si algún dato incumple una regla de negocio.</exception>
     Task<Presupuesto> CrearAsync(PresupuestoDatos datos);
 
-    /// <exception cref="Infrastructure.ReglaNegocioException">Si algún dato incumple una regla de negocio.</exception>
-    Task<Presupuesto> ActualizarAsync(int id, PresupuestoDatos datos);
-
-    /// <exception cref="Infrastructure.ReglaNegocioException">Si el presupuesto no existe.</exception>
     Task EliminarAsync(int id);
+}
 
-    // solo categorías de gasto, un presupuesto no tiene sentido para un ingreso
-    Task<IReadOnlyList<Categoria>> ListarCategoriasDeGastoAsync();
+// Datos para crear un presupuesto. Las fechas las calcula el servicio según el período.
+public class PresupuestoDatos
+{
+    public int CategoriaId { get; set; }
+    public decimal MontoLimite { get; set; }
+    public string Periodo { get; set; } = string.Empty;
 }

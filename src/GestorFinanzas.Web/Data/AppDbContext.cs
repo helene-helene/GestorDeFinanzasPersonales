@@ -3,10 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GestorFinanzas.Web.Data;
 
-/// <summary>
-/// Contexto de Entity Framework Core. Las reglas de cada tabla (tipos, longitudes, relaciones,
-/// índices y restricciones) viven en las clases de la carpeta Data/Configurations.
-/// </summary>
+// Contexto de Entity Framework Core. Las reglas de cada tabla (tipos, longitudes, relaciones,
+// índices y restricciones) viven en las clases de la carpeta Data/Configurations.
 public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> opciones) : base(opciones)

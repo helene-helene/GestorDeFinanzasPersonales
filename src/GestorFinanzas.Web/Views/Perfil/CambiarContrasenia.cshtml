@@ -1,0 +1,42 @@
+@model CambiarContraseniaViewModel
+@{
+    ViewData["Title"] = "Cambiar contraseña";
+}
+
+<div class="page-heading">
+    <a class="back-link" asp-action="Index">← Volver a mi perfil</a>
+    <div class="eyebrow">SEGURIDAD</div>
+    <h1>Cambiar contraseña</h1>
+    <p class="muted">Usa una contraseña que no uses en otros sitios.</p>
+</div>
+
+<div class="form-layout">
+    <form asp-action="CambiarContrasenia" method="post" class="panel form-panel" novalidate>
+        <div asp-validation-summary="ModelOnly" class="validation-summary-errors" role="alert"></div>
+
+        <label asp-for="ContraseniaActual"></label>
+        <input asp-for="ContraseniaActual" autocomplete="current-password" />
+        <span asp-validation-for="ContraseniaActual" class="field-error"></span>
+
+        <label asp-for="ContraseniaNueva"></label>
+        <input asp-for="ContraseniaNueva" autocomplete="new-password" />
+        <p class="hint">Mínimo 8 caracteres, con al menos una letra y un número.</p>
+        <span asp-validation-for="ContraseniaNueva" class="field-error"></span>
+
+        <label asp-for="ConfirmarContrasenia"></label>
+        <input asp-for="ConfirmarContrasenia" autocomplete="new-password" />
+        <span asp-validation-for="ConfirmarContrasenia" class="field-error"></span>
+
+        <button type="submit" class="btn btn-primary btn-full">Cambiar contraseña <span>→</span></button>
+        <a class="btn btn-outline btn-full centered-btn" asp-action="Index">Cancelar</a>
+    </form>
+    <aside class="tip-card">
+        <div class="tip-illustration">☼</div>
+        <h3>Consejo de seguridad</h3>
+        <p>Combina letras, números y símbolos. Evita datos que otros puedan adivinar.</p>
+    </aside>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

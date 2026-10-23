@@ -1,6 +1,6 @@
 namespace GestorFinanzas.Web.Models.Filtros;
 
-/// <summary>Criterios opcionales para consultar el historial de movimientos.</summary>
+// Criterios opcionales para consultar el historial de movimientos.
 public class FiltroMovimientos
 {
     public int? CuentaId { get; set; }

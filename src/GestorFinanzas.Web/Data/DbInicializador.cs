@@ -3,11 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GestorFinanzas.Web.Data;
 
-/// <summary>
-/// Prepara la base de datos al arrancar la aplicación: aplica las migraciones pendientes y,
-/// si está activado, carga los datos de demostración. Reintenta varias veces porque en Docker
-/// el contenedor de SQL Server puede tardar unos segundos en aceptar conexiones.
-/// </summary>
+// Prepara la base de datos al arrancar la aplicación: aplica las migraciones pendientes y,
+// si está activado, carga los datos de demostración. Reintenta varias veces porque en Docker
+// el contenedor de SQL Server puede tardar unos segundos en aceptar conexiones.
 public static class DbInicializador
 {
     private const int IntentosMaximos = 10;

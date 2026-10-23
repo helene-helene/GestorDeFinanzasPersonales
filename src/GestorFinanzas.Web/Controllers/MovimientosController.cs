@@ -2,19 +2,24 @@ using GestorFinanzas.Web.Infrastructure;
 using GestorFinanzas.Web.Models;
 using GestorFinanzas.Web.Models.Filtros;
 using GestorFinanzas.Web.Services;
+using GestorFinanzas.Web.Services.IA;
 using GestorFinanzas.Web.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestorFinanzas.Web.Controllers;
 
-/// <summary>Módulo "Registrar movimiento": historial y CRUD de ingresos y gastos.</summary>
+// Módulo "Registrar movimiento": historial y CRUD de ingresos y gastos.
+[Authorize]
 public class MovimientosController : Controller
 {
     private readonly ITransaccionService _servicio;
+    private readonly IServicioIA _ia;
 
-    public MovimientosController(ITransaccionService servicio)
+    public MovimientosController(ITransaccionService servicio, IServicioIA ia)
     {
         _servicio = servicio;
+        _ia = ia;
     }
 
     // GET /Movimientos
@@ -150,6 +155,24 @@ public class MovimientosController : Controller
         }
 
         return RedirectToAction(nameof(Index));
+    }
+
+    // POST /Movimientos/SugerirCategoria  (alimenta la «Sugerencia inteligente» del formulario)
+    [HttpPost]
+    public async Task<IActionResult> SugerirCategoria(
+        [FromBody] SugerenciaCategoriaSolicitud solicitud, CancellationToken cancellationToken)
+    {
+        var sugerencia = await _ia.ClasificarGastoAsync(solicitud?.Descripcion ?? string.Empty, cancellationToken);
+        if (sugerencia is null) return Json(new { encontrada = false });
+
+        return Json(new
+        {
+            encontrada = true,
+            categoriaId = sugerencia.CategoriaId,
+            categoria = sugerencia.Categoria,
+            motivo = sugerencia.Motivo,
+            proveedor = sugerencia.Proveedor
+        });
     }
 
     private async Task CargarListasAsync(MovimientoFormViewModel modelo)

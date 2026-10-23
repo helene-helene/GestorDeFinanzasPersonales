@@ -1,6 +1,6 @@
 namespace GestorFinanzas.Web.Models.Entities;
 
-/// <summary>Movimiento de dinero: un ingreso o un gasto registrado en una cuenta.</summary>
+// Movimiento de dinero: un ingreso o un gasto registrado en una cuenta.
 public class Transaccion
 {
     public int Id { get; set; }
@@ -8,7 +8,7 @@ public class Transaccion
     public int CategoriaId { get; set; }
     public decimal Monto { get; set; }
 
-    /// <summary>Ingreso o Gasto. Debe coincidir con el tipo de la categoría.</summary>
+    // Ingreso o Gasto. Debe coincidir con el tipo de la categoría.
     public string Tipo { get; set; } = TipoMovimiento.Gasto;
 
     public DateTime Fecha { get; set; }

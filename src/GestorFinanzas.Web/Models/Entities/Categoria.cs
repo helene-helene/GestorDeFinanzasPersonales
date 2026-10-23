@@ -1,15 +1,15 @@
 namespace GestorFinanzas.Web.Models.Entities;
 
-/// <summary>Categoría de ingreso o de gasto. Las categorías iniciales se cargan con la migración.</summary>
+// Categoría de ingreso o de gasto. Las categorías iniciales se cargan con la migración.
 public class Categoria
 {
     public int Id { get; set; }
     public string Nombre { get; set; } = string.Empty;
 
-    /// <summary>Ingreso o Gasto (ver <see cref="TipoMovimiento"/>).</summary>
+    // Ingreso o Gasto (ver TipoMovimiento).
     public string Tipo { get; set; } = TipoMovimiento.Gasto;
 
-    /// <summary>Nombre del ícono de Bootstrap Icons (por ejemplo "bi-bus-front").</summary>
+    // Nombre del ícono de Bootstrap Icons (por ejemplo "bi-bus-front").
     public string? Icono { get; set; }
 
     public ICollection<Transaccion> Transacciones { get; set; } = new List<Transaccion>();

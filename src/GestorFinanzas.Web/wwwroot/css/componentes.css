@@ -1,0 +1,110 @@
+/* Complementos del diseño de Figma para las pantallas del sistema MVC.
+   Usa las variables y clases de site.css (colores terracota/crema, tipografías Manrope y DM Sans). */
+
+[hidden]{display:none!important}
+.visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- Estructura */
+.layout-body.sin-menu{display:block}
+.logout-form{margin-top:auto}
+button.nav-link{border:0;background:transparent;width:100%;font:inherit;font-weight:600;text-align:left;cursor:pointer}
+button.nav-link:hover,button.nav-link:focus{background:#f7e8dc;color:var(--terracotta-dark)}
+.header-user-name{font-weight:700;color:var(--coffee);font-size:12px}
+@media(max-width:760px){.logout-form{display:none}.header-user-name{display:none}}
+
+/* ---------- Avisos */
+.alert{display:flex;gap:11px;align-items:flex-start;padding:13px 16px;border-radius:12px;margin-bottom:18px;font-size:12px;line-height:1.6}
+.alert-success{background:#eef1e3;border:1px solid #dce3cc;color:#5c6b38}
+.alert-error{background:#f8e3d7;border:1px solid #f0d0c0;color:#8e3f27}
+.alert b{font-weight:800}
+
+/* ---------- Formularios */
+.control{width:100%;border:1px solid #e9dcd0;background:#fffefa;border-radius:9px;min-height:43px;padding:11px 13px;outline:none;color:var(--coffee);font:inherit}
+.control:focus{border-color:#cb8468;box-shadow:0 0 0 3px #bf60421a}
+.form-panel select,.login-card select{width:100%;border:1px solid #e9dcd0;background:#fffefa;border-radius:9px;min-height:43px;padding:0 13px;outline:none;color:var(--coffee);font:inherit}
+.form-panel input[type=date]{width:100%}
+.money-input input{flex:1;min-width:0;border:0;background:transparent;outline:none;min-height:41px;padding:0 10px;font:inherit;color:var(--coffee)}
+.input-validation-error{border-color:#c4553a!important}
+.field-error{display:block;color:#a8412a;font-size:11px;margin-top:6px}
+.field-error:empty{display:none}
+.hint{font-size:11px;color:var(--muted);margin:6px 0 0}
+.validation-summary-errors{background:#f8e3d7;border:1px solid #f0d0c0;color:#8e3f27;border-radius:10px;padding:10px 14px;font-size:12px;margin-bottom:12px}
+.validation-summary-errors ul{margin:0;padding-left:18px}
+.validation-summary-valid{display:none}
+.check-row{display:flex;align-items:center;gap:9px;margin-top:16px}
+.login-card .check-row input{width:18px;height:18px;min-height:0;padding:0;flex:0 0 18px}
+.login-card .check-row label{display:inline;margin:0;font-size:12px;font-weight:600}
+.segmented{position:relative}
+.segmented input{position:absolute;opacity:0;pointer-events:none;width:1px!important;min-height:0!important;height:1px}
+.segmented label.segment{display:grid;place-items:center;cursor:pointer;border-radius:8px;min-height:39px;font-weight:700;color:#927d6e;margin:0!important;font-size:12px}
+.segmented input:checked+label.segment{background:#fffdf9;color:var(--terracotta-dark);box-shadow:0 2px 7px #54351b10}
+.segmented input:focus-visible+label.segment{outline:2px solid #cb8468}
+button.text-link{border:0;background:none;cursor:pointer;font:inherit;font-size:12px;font-weight:700;color:var(--terracotta-dark)}
+.suggestion b{color:var(--terracotta-dark)}
+
+/* ---------- Botones */
+.btn-danger{background:#b4452d;color:#fff}
+.btn-danger:hover{background:#98371f}
+.btn-sm{min-height:34px;padding:0 12px;font-size:11px;gap:6px}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.link-danger{border:0;background:none;color:#a8412a;font-size:11px;font-weight:700;cursor:pointer;padding:0}
+.link-danger:hover{text-decoration:underline}
+
+/* ---------- Filtros, tabla y paginación (Movimientos) */
+.filtros{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;align-items:end}
+.filtros label{display:block;font-size:11px;font-weight:700;margin-bottom:6px}
+.filtros .control{min-height:40px}
+.nota-filtros{font-size:11px;color:var(--muted);margin:0 0 12px}
+.table-wrap{overflow-x:auto}
+.data-table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table th{text-align:left;font-size:10px;letter-spacing:.8px;color:#9c8879;font-weight:800;padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+.data-table td{padding:14px;border-bottom:1px solid #f0e6dd;vertical-align:middle}
+.data-table tr:last-child td{border-bottom:0}
+.data-table .num{text-align:right;white-space:nowrap}
+.data-table .acciones{text-align:right;white-space:nowrap}
+.monto-ingreso{color:#5f7a2c;font-weight:800}
+.monto-gasto{color:#a8412a;font-weight:800}
+.monto-neutro{color:var(--coffee)}
+.paginacion{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:16px;font-size:12px;flex-wrap:wrap}
+.paginacion .btn[aria-disabled=true]{opacity:.45;pointer-events:none}
+.stack-section{margin-bottom:18px}
+@media(max-width:640px){
+  .data-table thead{display:none}
+  .data-table,.data-table tbody,.data-table tr,.data-table td{display:block;width:100%}
+  .data-table tr{padding:10px 2px;border-bottom:1px solid #f0e6dd}
+  .data-table tr:last-child{border-bottom:0}
+  .data-table td{border:0;padding:4px 8px;display:flex;justify-content:space-between;align-items:center;gap:12px;text-align:right}
+  .data-table td::before{content:attr(data-label);font-size:10px;font-weight:800;color:#9c8879;letter-spacing:.6px;text-align:left}
+  .data-table .acciones{justify-content:flex-end}
+  .data-table .acciones::before{content:none}
+}
+
+/* ---------- Presupuesto y metas */
+.line-actions{display:flex;justify-content:flex-end;margin-top:8px}
+.budget-over{color:#a8412a;font-weight:700}
+.aporte-form{display:flex;gap:8px;margin-top:12px;align-items:stretch}
+.aporte-form .money-input{flex:1;min-width:0}
+.goal-footer{display:flex;justify-content:flex-end;align-items:center;margin-top:12px}
+.empty-state .btn{margin-top:14px}
+.empty-state h2{margin-bottom:6px}
+.panel+.panel{margin-top:16px}
+
+/* ---------- Perfil */
+form.inline{margin:0}
+.settings-row{cursor:pointer;font:inherit}
+a.settings-row{text-decoration:none}
+
+/* ---------- Recomendaciones */
+.recommendation-card.aplicada{opacity:.75}
+
+/* ---------- Ajustes para celular (revisión con capturas en iPhone) */
+.filtros>div{min-width:0}
+.filtros .control,.form-panel input[type=date]{min-width:0;max-width:100%;-webkit-appearance:none;appearance:none;min-height:43px;display:block}
+.filtros input[type=date]::-webkit-date-and-time-value{text-align:left}
+@media(max-width:760px){
+  .avatar{font-size:14px}                /* site.css pone font-size:0 en el contenedor y ocultaba la inicial */
+  .topbar-right{font-size:0}
+  .nav-link{position:relative}
+  .sidebar .nav-link>span{font-size:18px}
+  .filtros{grid-template-columns:1fr 1fr}
+}

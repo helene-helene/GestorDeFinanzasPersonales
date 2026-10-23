@@ -3,7 +3,7 @@ using GestorFinanzas.Web.Models.Filtros;
 
 namespace GestorFinanzas.Web.ViewModels;
 
-/// <summary>Datos de la pantalla de historial de movimientos.</summary>
+// Datos de la pantalla de historial de movimientos.
 public class MovimientoIndexViewModel
 {
     public FiltroMovimientos Filtro { get; set; } = new();

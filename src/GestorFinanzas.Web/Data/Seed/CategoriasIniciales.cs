@@ -3,10 +3,8 @@ using GestorFinanzas.Web.Models.Entities;
 
 namespace GestorFinanzas.Web.Data.Seed;
 
-/// <summary>
-/// Categorías que existen desde el primer arranque. Si se cambia esta lista hay que generar
-/// una migración nueva (dotnet ef migrations add NombreDelCambio) para que llegue a la base de datos.
-/// </summary>
+// Categorías que existen desde el primer arranque. Si se cambia esta lista hay que generar
+// una migración nueva (dotnet ef migrations add NombreDelCambio) para que llegue a la base de datos.
 public static class CategoriasIniciales
 {
     public static readonly Categoria[] Todas =

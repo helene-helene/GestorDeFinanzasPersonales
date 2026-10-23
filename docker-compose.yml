@@ -31,6 +31,10 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Development}
       ConnectionStrings__Default: "Server=${DB_SERVER};Database=${DB_NAME};User Id=${DB_USER};Password=${DB_PASSWORD};TrustServerCertificate=True;MultipleActiveResultSets=true"
+      # IA opcional (cualquier servicio compatible con "chat completions"). Vacío = clasificador local de respaldo.
+      IA__Endpoint: ${IA_ENDPOINT:-}
+      IA__ApiKey: ${IA_API_KEY:-}
+      IA__Model: ${IA_MODEL:-gpt-4o-mini}
     ports:
       - "8080:8080"
 

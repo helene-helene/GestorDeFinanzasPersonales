@@ -5,11 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GestorFinanzas.Web.Data.Seed;
 
-/// <summary>
-/// Carga un usuario de demostración con cuentas, movimientos, presupuestos, metas, recomendaciones
-/// y notificaciones. Las fechas son relativas a hoy para que el historial siempre se vea reciente.
-/// Es seguro llamarlo varias veces: si el usuario demo ya existe no hace nada.
-/// </summary>
+// Carga un usuario de demostración con cuentas, movimientos, presupuestos, metas, recomendaciones
+// y notificaciones. Las fechas son relativas a hoy para que el historial siempre se vea reciente.
+// Es seguro llamarlo varias veces: si el usuario demo ya existe no hace nada.
 public static class DbSeeder
 {
     public static async Task CargarDatosDemoAsync(AppDbContext contexto)

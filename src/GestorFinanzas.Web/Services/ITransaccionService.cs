@@ -9,13 +9,10 @@ public interface ITransaccionService
     Task<ResumenMovimientos> ResumirAsync(FiltroMovimientos filtro);
     Task<Transaccion?> ObtenerAsync(int id);
 
-    /// <exception cref="Infrastructure.ReglaNegocioException">Si algún dato incumple una regla de negocio.</exception>
     Task<Transaccion> CrearAsync(MovimientoDatos datos);
 
-    /// <exception cref="Infrastructure.ReglaNegocioException">Si algún dato incumple una regla de negocio.</exception>
     Task<Transaccion> ActualizarAsync(int id, MovimientoDatos datos);
 
-    /// <exception cref="Infrastructure.ReglaNegocioException">Si el movimiento no existe o el saldo no lo permite.</exception>
     Task EliminarAsync(int id);
 
     Task<IReadOnlyList<Cuenta>> ListarCuentasAsync();

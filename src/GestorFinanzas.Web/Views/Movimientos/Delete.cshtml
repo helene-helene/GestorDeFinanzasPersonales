@@ -4,28 +4,23 @@
     var esIngreso = Model.Tipo == TipoMovimiento.Ingreso;
 }
 
-<h1 class="h3 mb-3">Eliminar movimiento</h1>
-
-<div class="card card-body">
-    <p class="mb-3">¿Seguro que quieres eliminar este movimiento? El saldo de la cuenta se ajustará automáticamente.</p>
-
-    <dl class="row mb-4">
-        <dt class="col-sm-3">Tipo</dt>
-        <dd class="col-sm-9">@Model.Tipo</dd>
-        <dt class="col-sm-3">Monto</dt>
-        <dd class="col-sm-9 fw-semibold @(esIngreso ? "text-success" : "text-danger")">$@Model.Monto.ToString("N2")</dd>
-        <dt class="col-sm-3">Fecha</dt>
-        <dd class="col-sm-9">@Model.Fecha.ToString("dd/MM/yyyy")</dd>
-        <dt class="col-sm-3">Categoría</dt>
-        <dd class="col-sm-9">@Model.Categoria.Nombre</dd>
-        <dt class="col-sm-3">Cuenta</dt>
-        <dd class="col-sm-9">@Model.Cuenta.NombreCuenta</dd>
-        <dt class="col-sm-3">Descripción</dt>
-        <dd class="col-sm-9">@(string.IsNullOrWhiteSpace(Model.Descripcion) ? "—" : Model.Descripcion)</dd>
-    </dl>
-
-    <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="d-flex gap-2">
-        <button type="submit" class="btn btn-danger"><i class="bi bi-trash me-1"></i>Sí, eliminar</button>
-        <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>
-    </form>
+<div class="page-heading">
+    <a class="back-link" asp-action="Index">← Volver a movimientos</a>
+    <div class="eyebrow">CONFIRMA LA ACCIÓN</div>
+    <h1>Eliminar movimiento</h1>
+    <p class="muted">¿Seguro que quieres eliminar este movimiento? El saldo de la cuenta se ajustará automáticamente.</p>
 </div>
+
+<section class="panel" style="max-width:640px">
+    <div class="profile-field"><span>Tipo</span><strong>@Model.Tipo</strong></div>
+    <div class="profile-field"><span>Monto</span><strong class="@(esIngreso ? "monto-ingreso" : "monto-gasto")">@Formato.Dinero(Model.Monto)</strong></div>
+    <div class="profile-field"><span>Fecha</span><strong>@Formato.Fecha(Model.Fecha)</strong></div>
+    <div class="profile-field"><span>Categoría</span><strong>@Model.Categoria.Nombre</strong></div>
+    <div class="profile-field"><span>Cuenta</span><strong>@Model.Cuenta.NombreCuenta</strong></div>
+    <div class="profile-field"><span>Descripción</span><strong>@(string.IsNullOrWhiteSpace(Model.Descripcion) ? "—" : Model.Descripcion)</strong></div>
+
+    <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="btn-row" style="margin-top:18px">
+        <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        <a class="btn btn-outline" asp-action="Index">Cancelar</a>
+    </form>
+</section>

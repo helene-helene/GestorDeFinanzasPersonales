@@ -3,15 +3,27 @@
     ViewData["Title"] = "Registrar movimiento";
 }
 
-<h1 class="h3 mb-3">Registrar movimiento</h1>
+<div class="page-heading">
+    <a class="back-link" asp-action="Index">← Volver a movimientos</a>
+    <div class="eyebrow">REGISTRA TU ACTIVIDAD</div>
+    <h1>Nuevo movimiento</h1>
+    <p class="muted">Registra ingresos y gastos para mantener tu información al día</p>
+</div>
 
-<form asp-action="Create" method="post" class="card card-body" novalidate>
-    <partial name="_Form" model="Model" />
-    <div class="mt-4 d-flex gap-2">
-        <button type="submit" class="btn btn-primary"><i class="bi bi-check2 me-1"></i>Guardar</button>
-        <a class="btn btn-outline-secondary" asp-action="Index">Cancelar</a>
-    </div>
-</form>
+<div class="form-layout">
+    <form asp-action="Create" method="post" class="panel form-panel" novalidate>
+        <partial name="_Form" model="Model" />
+        <button class="btn btn-primary btn-full" type="submit">Guardar movimiento <span>→</span></button>
+        <a class="btn btn-outline btn-full centered-btn" asp-action="Index">Cancelar</a>
+    </form>
+    <aside class="tip-card">
+        <div class="tip-illustration">✦</div>
+        <h3>Un hábito a la vez</h3>
+        <p>Registrar tus gastos, incluso los pequeños, te ayuda a entender a dónde va tu dinero.</p>
+        <div class="tip-divider"></div>
+        <p>Al escribir la descripción de un gasto, el asistente te sugerirá la categoría.</p>
+    </aside>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

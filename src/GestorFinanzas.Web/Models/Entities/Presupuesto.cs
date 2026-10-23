@@ -1,6 +1,6 @@
 namespace GestorFinanzas.Web.Models.Entities;
 
-/// <summary>Límite de gasto que el usuario define para una categoría durante un período.</summary>
+// Límite de gasto que el usuario define para una categoría durante un período.
 public class Presupuesto
 {
     public int Id { get; set; }

@@ -1,6 +1,6 @@
 namespace GestorFinanzas.Web.Models.Entities;
 
-/// <summary>Recomendación de ahorro o de control de gastos generada por el módulo de IA.</summary>
+// Recomendación de ahorro o de control de gastos generada por el módulo de IA.
 public class RecomendacionIA
 {
     public int Id { get; set; }

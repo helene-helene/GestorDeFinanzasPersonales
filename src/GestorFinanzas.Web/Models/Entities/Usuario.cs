@@ -1,13 +1,13 @@
 namespace GestorFinanzas.Web.Models.Entities;
 
-/// <summary>Perfil del estudiante que usa el sistema.</summary>
+// Perfil del estudiante que usa el sistema.
 public class Usuario
 {
     public int Id { get; set; }
     public string Nombre { get; set; } = string.Empty;
     public string Correo { get; set; } = string.Empty;
 
-    /// <summary>Hash de la contraseña. Nunca se guarda la contraseña en texto plano.</summary>
+    // Hash de la contraseña. Nunca se guarda la contraseña en texto plano.
     public string Contrasenia { get; set; } = string.Empty;
 
     public DateTime FechaRegistro { get; set; }

@@ -75,7 +75,7 @@ public class TransaccionRepository : ITransaccionRepository
     public void Eliminar(Transaccion transaccion) =>
         _contexto.Transacciones.Remove(transaccion);
 
-    /// <summary>Aplica los criterios del filtro. Siempre limita a los movimientos del usuario.</summary>
+    // Aplica los criterios del filtro. Siempre limita a los movimientos del usuario.
     private IQueryable<Transaccion> Filtrar(int usuarioId, FiltroMovimientos filtro)
     {
         var consulta = _contexto.Transacciones

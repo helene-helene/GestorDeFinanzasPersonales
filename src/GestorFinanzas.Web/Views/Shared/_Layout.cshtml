@@ -1,56 +1,92 @@
+@inject GestorFinanzas.Web.Services.INotificacionService Notificaciones
+@{
+    var autenticado = User.Identity?.IsAuthenticated == true;
+    var nombre = User.Identity?.Name ?? string.Empty;
+    var inicial = string.IsNullOrWhiteSpace(nombre) ? "?" : nombre.Trim().Substring(0, 1).ToUpperInvariant();
+    var controlador = ViewContext.RouteData.Values["controller"]?.ToString() ?? string.Empty;
+
+    // Cantidad de notificaciones sin leer para el globo del menú.
+    var noLeidas = 0;
+    if (autenticado)
+    {
+        try
+        {
+            noLeidas = await Notificaciones.ContarNoLeidasAsync();
+        }
+        catch (Exception)
+        {
+            noLeidas = 0;
+        }
+    }
+
+    string? Pagina(string nombreControlador) =>
+        string.Equals(controlador, nombreControlador, StringComparison.OrdinalIgnoreCase) ? "page" : null;
+}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Gestor de Finanzas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+    <meta name="theme-color" content="#bf6042" />
+    <title>@ViewData["Title"] - Finanzas</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/componentes.css" asp-append-version="true" />
 </head>
-<body class="bg-body-tertiary">
-    @* Diseño provisional: el módulo de interfaz lo reemplaza por el definitivo (Figma). *@
-    <nav class="navbar navbar-expand-md bg-white border-bottom mb-4">
-        <div class="container">
-            <a class="navbar-brand fw-semibold" asp-controller="Home" asp-action="Index">
-                <i class="bi bi-wallet2 me-1"></i>Gestor de Finanzas
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <a class="brand" asp-controller="Home" asp-action="Index">
+                <span class="brand-mark">$</span><span>Finanzas<small>Protección y control financiero</small></span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
-                    aria-controls="menuPrincipal" aria-expanded="false" aria-label="Mostrar u ocultar el menú">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="menuPrincipal">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Index">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Movimientos" asp-action="Index">Movimientos</a></li>
-                    <li class="nav-item"><a class="nav-link" asp-controller="Presupuesto" asp-action="Index">Presupuesto</a></li>
-                    <li class="nav-item"><span class="nav-link disabled">Metas y ahorros</span></li>
-                    <li class="nav-item"><span class="nav-link disabled">Mi perfil</span></li>
-                </ul>
-            </div>
+            @if (autenticado)
+            {
+                <div class="topbar-right">
+                    <span class="status-dot"></span> Mi espacio
+                    <span class="avatar">@inicial</span>
+                    <span class="header-user-name">@nombre</span>
+                </div>
+            }
+        </header>
+        <div class="layout-body @(autenticado ? "" : "sin-menu")">
+            @if (autenticado)
+            {
+                <aside class="sidebar">
+                    <div class="side-label">MENÚ PRINCIPAL</div>
+                    <a class="nav-link" asp-controller="Home" asp-action="Index" aria-current="@Pagina("Home")"><span>⌂</span>Inicio</a>
+                    <a class="nav-link" asp-controller="Movimientos" asp-action="Index" aria-current="@Pagina("Movimientos")"><span>⇄</span>Movimientos</a>
+                    <a class="nav-link" asp-controller="Presupuesto" asp-action="Index" aria-current="@Pagina("Presupuesto")"><span>◔</span>Presupuesto</a>
+                    <a class="nav-link" asp-controller="Metas" asp-action="Index" aria-current="@Pagina("Metas")"><span>◎</span>Metas y ahorros</a>
+                    <a class="nav-link" asp-controller="Notificaciones" asp-action="Index" aria-current="@Pagina("Notificaciones")">
+                        <span>◉</span>Notificaciones
+                        @if (noLeidas > 0)
+                        {
+                            <em class="nav-count">@noLeidas</em>
+                        }
+                    </a>
+                    <a class="nav-link" asp-controller="Recomendaciones" asp-action="Index" aria-current="@Pagina("Recomendaciones")"><span>✦</span>Recomendaciones IA</a>
+                    <a class="nav-link" asp-controller="Perfil" asp-action="Index" aria-current="@Pagina("Perfil")"><span>☺︎</span>Mi perfil</a>
+                    <div class="sidebar-note"><div class="note-icon">✦</div><p>Organiza tu dinero sin complicarte.</p></div>
+                    <form asp-controller="Acceso" asp-action="Logout" method="post" class="logout-form">
+                        <button type="submit" class="nav-link logout-link"><span>↩︎</span>Cerrar sesión</button>
+                    </form>
+                </aside>
+            }
+            <main class="main-content">
+                @if (TempData["Exito"] is string exito)
+                {
+                    <div class="alert alert-success" role="status"><b>✓</b><span>@exito</span></div>
+                }
+                @if (TempData["Error"] is string error)
+                {
+                    <div class="alert alert-error" role="alert"><b>!</b><span>@error</span></div>
+                }
+
+                @RenderBody()
+
+                <footer class="footer">Finanzas <span>Tu información, bajo tu control</span></footer>
+            </main>
         </div>
-    </nav>
-
-    <main class="container pb-5">
-        @if (TempData["Exito"] is string exito)
-        {
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="bi bi-check-circle me-1"></i>@exito
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-            </div>
-        }
-        @if (TempData["Error"] is string error)
-        {
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="bi bi-exclamation-triangle me-1"></i>@error
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-            </div>
-        }
-
-        @RenderBody()
-    </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

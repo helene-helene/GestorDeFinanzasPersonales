@@ -1,6 +1,6 @@
 namespace GestorFinanzas.Web.Models.Entities;
 
-/// <summary>Alerta dirigida al usuario (límite de presupuesto, meta alcanzada, etc.).</summary>
+// Alerta dirigida al usuario (límite de presupuesto, meta alcanzada, etc.).
 public class Notificacion
 {
     public int Id { get; set; }

@@ -1,6 +1,6 @@
 namespace GestorFinanzas.Web.Models;
 
-/// <summary>Valores válidos para el tipo de una transacción o de una categoría.</summary>
+// Valores válidos para el tipo de una transacción o de una categoría.
 public static class TipoMovimiento
 {
     public const string Ingreso = "Ingreso";
@@ -9,7 +9,7 @@ public static class TipoMovimiento
     public static readonly string[] Todos = { Ingreso, Gasto };
 }
 
-/// <summary>Tipos de cuenta permitidos (coinciden con la restricción CHECK de la tabla Cuentas).</summary>
+// Tipos de cuenta permitidos (coinciden con la restricción CHECK de la tabla Cuentas).
 public static class TipoCuenta
 {
     public const string Ahorro = "Ahorro";
@@ -20,7 +20,7 @@ public static class TipoCuenta
     public static readonly string[] Todos = { Ahorro, Corriente, Efectivo, Tarjeta };
 }
 
-/// <summary>Periodicidades que puede tener un presupuesto.</summary>
+// Periodicidades que puede tener un presupuesto.
 public static class PeriodoPresupuesto
 {
     public const string Mensual = "Mensual";

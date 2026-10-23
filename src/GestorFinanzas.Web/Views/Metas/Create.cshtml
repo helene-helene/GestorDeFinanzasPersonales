@@ -1,0 +1,49 @@
+@model MetaFormViewModel
+@{
+    ViewData["Title"] = "Nueva meta";
+}
+
+<div class="page-heading">
+    <a class="back-link" asp-action="Index">← Volver a mis metas</a>
+    <div class="eyebrow">UN SUEÑO A LA VEZ</div>
+    <h1>Nueva meta</h1>
+    <p class="muted">Define tu objetivo y empieza a construirlo.</p>
+</div>
+
+<div class="form-layout">
+    <form asp-action="Create" method="post" class="panel form-panel" novalidate>
+        <div asp-validation-summary="ModelOnly" class="validation-summary-errors" role="alert"></div>
+
+        <label asp-for="Nombre"></label>
+        <input asp-for="Nombre" maxlength="100" placeholder="Ej. Fondo de emergencia" />
+        <span asp-validation-for="Nombre" class="field-error"></span>
+
+        <label asp-for="MontoObjetivo"></label>
+        <div class="money-input"><span>$</span><input asp-for="MontoObjetivo" type="number" step="0.01" min="0.01" inputmode="decimal" placeholder="0.00" /></div>
+        <span asp-validation-for="MontoObjetivo" class="field-error"></span>
+
+        <label asp-for="MontoActual"></label>
+        <div class="money-input"><span>$</span><input asp-for="MontoActual" type="number" step="0.01" min="0" inputmode="decimal" placeholder="0.00" /></div>
+        <span asp-validation-for="MontoActual" class="field-error"></span>
+
+        <label asp-for="FechaLimite">Fecha límite <span class="muted">(opcional)</span></label>
+        <input asp-for="FechaLimite" type="date" />
+        <span asp-validation-for="FechaLimite" class="field-error"></span>
+
+        <div class="goal-preview"><div class="goal-emoji goal-laptop">◎</div><div><strong>Tu meta empieza aquí</strong><p>La constancia importa más que la cantidad.</p></div></div>
+
+        <button type="submit" class="btn btn-primary btn-full">Guardar meta <span>→</span></button>
+        <a class="btn btn-outline btn-full centered-btn" asp-action="Index">Cancelar</a>
+    </form>
+    <aside class="tip-card">
+        <div class="tip-illustration">☼</div>
+        <h3>Consejo para ahorrar</h3>
+        <p>Divide tu objetivo en aportes pequeños semanales. Así tu meta se sentirá más alcanzable.</p>
+        <div class="tip-divider"></div>
+        <strong>Tu futuro yo te lo agradecerá.</strong>
+    </aside>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

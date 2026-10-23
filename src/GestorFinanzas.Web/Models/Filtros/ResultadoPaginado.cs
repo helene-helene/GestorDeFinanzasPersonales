@@ -1,6 +1,6 @@
 namespace GestorFinanzas.Web.Models.Filtros;
 
-/// <summary>Una página de resultados junto con los datos necesarios para paginar.</summary>
+// Una página de resultados junto con los datos necesarios para paginar.
 public class ResultadoPaginado<T>
 {
     public IReadOnlyList<T> Items { get; init; } = Array.Empty<T>();

@@ -1,13 +1,13 @@
 namespace GestorFinanzas.Web.Models.Entities;
 
-/// <summary>Cuenta financiera del usuario (efectivo, ahorro, tarjeta...).</summary>
+// Cuenta financiera del usuario (efectivo, ahorro, tarjeta...).
 public class Cuenta
 {
     public int Id { get; set; }
     public int UsuarioId { get; set; }
     public string NombreCuenta { get; set; } = string.Empty;
 
-    /// <summary>Ahorro, Corriente, Efectivo o Tarjeta (ver <see cref="TipoCuenta"/>).</summary>
+    // Ahorro, Corriente, Efectivo o Tarjeta (ver TipoCuenta).
     public string TipoCuenta { get; set; } = Models.TipoCuenta.Efectivo;
 
     public decimal SaldoActual { get; set; }

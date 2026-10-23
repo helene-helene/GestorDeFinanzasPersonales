@@ -1,6 +1,6 @@
 namespace GestorFinanzas.Web.Models.Filtros;
 
-/// <summary>Totales de los movimientos que cumplen un filtro.</summary>
+// Totales de los movimientos que cumplen un filtro.
 public class ResumenMovimientos
 {
     public decimal TotalIngresos { get; init; }

@@ -1,6 +1,6 @@
 namespace GestorFinanzas.Web.Services;
 
-/// <summary>Datos que se necesitan para registrar o modificar un movimiento.</summary>
+// Datos que se necesitan para registrar o modificar un movimiento.
 public class MovimientoDatos
 {
     public int CuentaId { get; set; }

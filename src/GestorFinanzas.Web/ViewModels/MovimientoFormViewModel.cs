@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace GestorFinanzas.Web.ViewModels;
 
-/// <summary>Datos del formulario para registrar o editar un movimiento.</summary>
+// Datos del formulario para registrar o editar un movimiento.
 public class MovimientoFormViewModel
 {
     public int Id { get; set; }

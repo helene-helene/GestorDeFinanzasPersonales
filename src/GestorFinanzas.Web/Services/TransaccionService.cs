@@ -7,15 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GestorFinanzas.Web.Services;
 
-/// <summary>
-/// Reglas de negocio de los movimientos (ingresos y gastos):
-///  1. El monto es mayor que 0, con máximo 2 decimales.
-///  2. La fecha no puede ser futura.
-///  3. La cuenta tiene que ser del usuario que está haciendo la operación.
-///  4. La categoría debe ser del mismo tipo que el movimiento (un gasto no usa una categoría de ingreso).
-///  5. Cada movimiento actualiza el saldo de su cuenta: un ingreso suma y un gasto resta.
-///  6. Las cuentas que no son de tarjeta no pueden quedar con saldo negativo.
-/// </summary>
+// Reglas de negocio de los movimientos (ingresos y gastos):
+//  1. El monto es mayor que 0, con máximo 2 decimales.
+//  2. La fecha no puede ser futura.
+//  3. La cuenta tiene que ser del usuario que está haciendo la operación.
+//  4. La categoría debe ser del mismo tipo que el movimiento (un gasto no usa una categoría de ingreso).
+//  5. Cada movimiento actualiza el saldo de su cuenta: un ingreso suma y un gasto resta.
+//  6. Las cuentas que no son de tarjeta no pueden quedar con saldo negativo.
 public class TransaccionService : ITransaccionService
 {
     private const decimal MontoMaximo = 9_999_999_999.99m;
@@ -28,19 +26,25 @@ public class TransaccionService : ITransaccionService
     private readonly ICategoriaRepository _categorias;
     private readonly IUnitOfWork _unidadDeTrabajo;
     private readonly ICurrentUserService _usuarioActual;
+    private readonly INotificacionService _notificaciones;
+    private readonly ILogger<TransaccionService> _logger;
 
     public TransaccionService(
         ITransaccionRepository transacciones,
         ICuentaRepository cuentas,
         ICategoriaRepository categorias,
         IUnitOfWork unidadDeTrabajo,
-        ICurrentUserService usuarioActual)
+        ICurrentUserService usuarioActual,
+        INotificacionService notificaciones,
+        ILogger<TransaccionService> logger)
     {
         _transacciones = transacciones;
         _cuentas = cuentas;
         _categorias = categorias;
         _unidadDeTrabajo = unidadDeTrabajo;
         _usuarioActual = usuarioActual;
+        _notificaciones = notificaciones;
+        _logger = logger;
     }
 
     // ---------------------------------------------------------------- Consultas
@@ -92,6 +96,7 @@ public class TransaccionService : ITransaccionService
 
         await _transacciones.AgregarAsync(transaccion);
         await GuardarAsync();
+        await RevisarAlertasAsync();
         return transaccion;
     }
 
@@ -130,6 +135,7 @@ public class TransaccionService : ITransaccionService
         transaccion.Descripcion = LimpiarTexto(datos.Descripcion);
 
         await GuardarAsync();
+        await RevisarAlertasAsync();
         return transaccion;
     }
 
@@ -194,7 +200,7 @@ public class TransaccionService : ITransaccionService
         }
     }
 
-    /// <summary>Un ingreso suma al saldo y un gasto resta. El signo -1 deshace el efecto.</summary>
+    // Un ingreso suma al saldo y un gasto resta. El signo -1 deshace el efecto.
     private static void AplicarEfectoEnSaldo(Cuenta cuenta, string tipo, decimal monto, int signo)
     {
         var variacion = tipo == TipoMovimiento.Ingreso ? monto : -monto;
@@ -207,6 +213,20 @@ public class TransaccionService : ITransaccionService
         {
             throw new ReglaNegocioException(
                 $"La cuenta '{cuenta.NombreCuenta}' no tiene saldo suficiente para esta operación.");
+        }
+    }
+
+    // Después de guardar un movimiento se revisan presupuestos y metas para generar alertas.
+    // Si la revisión falla, el movimiento ya quedó guardado: solo se anota en el log.
+    private async Task RevisarAlertasAsync()
+    {
+        try
+        {
+            await _notificaciones.RevisarAlertasAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "No se pudieron revisar las alertas después de guardar el movimiento.");
         }
     }
 

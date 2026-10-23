@@ -1,0 +1,44 @@
+@model IReadOnlyList<Notificacion>
+@{
+    ViewData["Title"] = "Notificaciones";
+    string Icono(string tipo) => tipo == "Meta" ? "%" : "!";
+    string Clase(string tipo) => tipo == "Meta" ? "notify-goal" : "notify-warning";
+}
+
+<div class="page-heading">
+    <div class="eyebrow">TU CUENTA</div>
+    <h1>Notificaciones</h1>
+    <p class="muted">Avisos basados en tus movimientos, presupuestos y metas.</p>
+</div>
+
+@if (Model.Count == 0)
+{
+    <section class="panel empty-state" style="padding:32px;text-align:center">
+        <div style="font-size:28px;margin-bottom:12px;color:#9a625e">✓</div>
+        <h2>Todavía no tienes notificaciones</h2>
+        <p class="muted">Cuando registres movimientos, definas presupuestos o avances en tus metas, aquí aparecerán los avisos que correspondan.</p>
+        <a asp-controller="Movimientos" asp-action="Create" class="btn btn-primary">Registrar movimiento</a>
+    </section>
+}
+else
+{
+    <section class="panel notification-list">
+        @foreach (var n in Model)
+        {
+            <article class="notification-item @(n.Leida ? "" : "unread")">
+                <div class="notification-icon @Clase(n.Tipo)">@Icono(n.Tipo)</div>
+                <div class="notification-copy">
+                    <div class="notification-title">
+                        <strong>@(n.Tipo == "Meta" ? "Meta de ahorro" : "Presupuesto")</strong>
+                        @if (!n.Leida)
+                        {
+                            <span class="unread-dot" title="Nueva"></span>
+                        }
+                    </div>
+                    <p>@n.Mensaje</p>
+                    <small>@n.FechaEnvio.ToString("dd/MM/yyyy HH:mm")</small>
+                </div>
+            </article>
+        }
+    </section>
+}

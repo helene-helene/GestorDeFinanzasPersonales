@@ -1,6 +1,6 @@
 namespace GestorFinanzas.Web.Models.Entities;
 
-/// <summary>Meta de ahorro del usuario (por ejemplo un fondo de emergencia).</summary>
+// Meta de ahorro del usuario (por ejemplo un fondo de emergencia).
 public class MetaAhorro
 {
     public int Id { get; set; }

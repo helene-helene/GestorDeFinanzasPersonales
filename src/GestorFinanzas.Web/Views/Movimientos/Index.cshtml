@@ -10,52 +10,30 @@
                      || f.Desde.HasValue || f.Hasta.HasValue || !string.IsNullOrWhiteSpace(f.Texto);
 }
 
-<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-    <h1 class="h3 mb-0">Movimientos</h1>
-    <a class="btn btn-primary" asp-action="Create"><i class="bi bi-plus-circle me-1"></i>Registrar movimiento</a>
+<div class="page-heading heading-with-action">
+    <div>
+        <div class="eyebrow">TU ACTIVIDAD</div>
+        <h1>Movimientos</h1>
+        <p class="muted">Historial de tus ingresos y gastos.</p>
+    </div>
+    <a class="btn btn-primary" asp-action="Create">＋ Registrar movimiento</a>
 </div>
 
-<div class="row g-3 mb-4">
-    <div class="col-12 col-md-4">
-        <div class="card h-100 border-success-subtle">
-            <div class="card-body">
-                <div class="text-secondary small">Ingresos</div>
-                <div class="fs-4 fw-semibold text-success">$@Model.Resumen.TotalIngresos.ToString("N2")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-md-4">
-        <div class="card h-100 border-danger-subtle">
-            <div class="card-body">
-                <div class="text-secondary small">Gastos</div>
-                <div class="fs-4 fw-semibold text-danger">$@Model.Resumen.TotalGastos.ToString("N2")</div>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 col-md-4">
-        <div class="card h-100">
-            <div class="card-body">
-                <div class="text-secondary small">Balance</div>
-                <div class="fs-4 fw-semibold @(Model.Resumen.Balance < 0 ? "text-danger" : "text-body")">$@Model.Resumen.Balance.ToString("N2")</div>
-            </div>
-        </div>
-    </div>
+<div class="stat-grid stack-section">
+    <article class="stat-card"><div class="stat-icon icon-sage">↗︎</div><span class="muted">Ingresos</span><strong class="monto-ingreso">@Formato.Dinero(Model.Resumen.TotalIngresos)</strong><small>@(hayFiltros ? "Según los filtros" : "Total registrado")</small></article>
+    <article class="stat-card"><div class="stat-icon icon-peach">↘︎</div><span class="muted">Gastos</span><strong class="monto-gasto">@Formato.Dinero(Model.Resumen.TotalGastos)</strong><small>@(hayFiltros ? "Según los filtros" : "Total registrado")</small></article>
+    <article class="stat-card"><div class="stat-icon icon-gold">＝</div><span class="muted">Balance</span><strong class="@(Model.Resumen.Balance < 0 ? "monto-gasto" : "monto-neutro")">@Formato.Dinero(Model.Resumen.Balance)</strong><small>Ingresos − gastos</small></article>
 </div>
 
-@if (hayFiltros)
-{
-    <p class="text-secondary small mb-2">Los totales corresponden a los movimientos que coinciden con los filtros aplicados.</p>
-}
-
-<form method="get" asp-action="Index" class="card card-body mb-4">
-    <div class="row g-2">
-        <div class="col-12 col-md-3">
-            <label class="form-label small mb-1" for="filtro-texto">Buscar</label>
-            <input id="filtro-texto" name="texto" value="@f.Texto" class="form-control" placeholder="Descripción o categoría" />
+<form method="get" asp-action="Index" class="panel stack-section">
+    <div class="filtros">
+        <div>
+            <label for="texto">Buscar</label>
+            <input class="control" id="texto" name="texto" value="@f.Texto" maxlength="100" placeholder="Descripción…" />
         </div>
-        <div class="col-6 col-md-2">
-            <label class="form-label small mb-1" for="filtro-tipo">Tipo</label>
-            <select id="filtro-tipo" name="tipo" class="form-select">
+        <div>
+            <label for="tipo">Tipo</label>
+            <select class="control" id="tipo" name="tipo">
                 <option value="">Todos</option>
                 @foreach (var tipo in TipoMovimiento.Todos)
                 {
@@ -63,9 +41,9 @@
                 }
             </select>
         </div>
-        <div class="col-6 col-md-3">
-            <label class="form-label small mb-1" for="filtro-cuenta">Cuenta</label>
-            <select id="filtro-cuenta" name="cuentaId" class="form-select">
+        <div>
+            <label for="cuentaId">Cuenta</label>
+            <select class="control" id="cuentaId" name="cuentaId">
                 <option value="">Todas</option>
                 @foreach (var cuenta in Model.Cuentas)
                 {
@@ -73,56 +51,56 @@
                 }
             </select>
         </div>
-        <div class="col-12 col-md-4">
-            <label class="form-label small mb-1" for="filtro-categoria">Categoría</label>
-            <select id="filtro-categoria" name="categoriaId" class="form-select">
+        <div>
+            <label for="categoriaId">Categoría</label>
+            <select class="control" id="categoriaId" name="categoriaId">
                 <option value="">Todas</option>
                 @foreach (var categoria in Model.Categorias)
                 {
-                    <option value="@categoria.Id" selected="@(f.CategoriaId == categoria.Id)">@categoria.Nombre (@categoria.Tipo)</option>
+                    <option value="@categoria.Id" selected="@(f.CategoriaId == categoria.Id)">@categoria.Nombre</option>
                 }
             </select>
         </div>
-        <div class="col-6 col-md-3">
-            <label class="form-label small mb-1" for="filtro-desde">Desde</label>
-            <input id="filtro-desde" type="date" name="desde" value="@desde" class="form-control" />
+        <div>
+            <label for="desde">Desde</label>
+            <input class="control" type="date" id="desde" name="desde" value="@desde" />
         </div>
-        <div class="col-6 col-md-3">
-            <label class="form-label small mb-1" for="filtro-hasta">Hasta</label>
-            <input id="filtro-hasta" type="date" name="hasta" value="@hasta" class="form-control" />
+        <div>
+            <label for="hasta">Hasta</label>
+            <input class="control" type="date" id="hasta" name="hasta" value="@hasta" />
         </div>
-        <div class="col-12 col-md-6 d-flex align-items-end gap-2">
-            <button type="submit" class="btn btn-outline-primary"><i class="bi bi-funnel me-1"></i>Filtrar</button>
-            @if (hayFiltros)
-            {
-                <a class="btn btn-link" asp-action="Index">Quitar filtros</a>
-            }
-        </div>
+    </div>
+    <div class="btn-row" style="margin-top:14px">
+        <button class="btn btn-primary btn-sm" type="submit">Filtrar</button>
+        @if (hayFiltros)
+        {
+            <a class="btn btn-outline btn-sm" asp-action="Index">Limpiar filtros</a>
+        }
     </div>
 </form>
 
 @if (r.Total == 0)
 {
-    <div class="card card-body text-center text-secondary py-5">
-        <i class="bi bi-inbox fs-1"></i>
-        <p class="mb-0 mt-2">
-            @(hayFiltros ? "No hay movimientos que coincidan con los filtros." : "Todavía no has registrado movimientos.")
-        </p>
-    </div>
+    <section class="panel empty-state" style="padding:32px;text-align:center">
+        <div style="font-size:28px;margin-bottom:12px;color:#9a625e">✓</div>
+        <h2>@(hayFiltros ? "No hay movimientos que coincidan con los filtros." : "Todavía no has registrado movimientos.")</h2>
+        <p class="muted">Registra tus ingresos y gastos para ver aquí tu historial.</p>
+        <a class="btn btn-primary" asp-action="Create">Registrar movimiento</a>
+    </section>
 }
 else
 {
-    <div class="card">
-        <div class="table-responsive">
-            <table class="table table-hover align-middle mb-0">
-                <thead class="table-light">
+    <section class="panel">
+        <div class="table-wrap">
+            <table class="data-table">
+                <thead>
                     <tr>
-                        <th>Fecha</th>
-                        <th>Descripción</th>
-                        <th>Categoría</th>
-                        <th>Cuenta</th>
-                        <th class="text-end">Monto</th>
-                        <th class="text-end">Acciones</th>
+                        <th>FECHA</th>
+                        <th>DESCRIPCIÓN</th>
+                        <th>CATEGORÍA</th>
+                        <th>CUENTA</th>
+                        <th class="num">MONTO</th>
+                        <th class="acciones">ACCIONES</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -130,50 +108,36 @@ else
                     {
                         var esIngreso = t.Tipo == TipoMovimiento.Ingreso;
                         <tr>
-                            <td class="text-nowrap">@t.Fecha.ToString("dd/MM/yyyy")</td>
-                            <td>@(string.IsNullOrWhiteSpace(t.Descripcion) ? "—" : t.Descripcion)</td>
-                            <td class="text-nowrap">
-                                <i class="bi @t.Categoria.Icono me-1"></i>@t.Categoria.Nombre
-                            </td>
-                            <td class="text-nowrap">@t.Cuenta.NombreCuenta</td>
-                            <td class="text-end text-nowrap fw-semibold @(esIngreso ? "text-success" : "text-danger")">
-                                @(esIngreso ? "+" : "−")$@t.Monto.ToString("N2")
-                            </td>
-                            <td class="text-end text-nowrap">
-                                <a class="btn btn-sm btn-outline-secondary" asp-action="Edit" asp-route-id="@t.Id" title="Editar">
-                                    <i class="bi bi-pencil"></i><span class="visually-hidden">Editar</span>
-                                </a>
-                                <a class="btn btn-sm btn-outline-danger" asp-action="Delete" asp-route-id="@t.Id" title="Eliminar">
-                                    <i class="bi bi-trash"></i><span class="visually-hidden">Eliminar</span>
-                                </a>
+                            <td data-label="Fecha">@Formato.Fecha(t.Fecha)</td>
+                            <td data-label="Descripción">@(string.IsNullOrWhiteSpace(t.Descripcion) ? "—" : t.Descripcion)</td>
+                            <td data-label="Categoría">@t.Categoria.Nombre</td>
+                            <td data-label="Cuenta">@t.Cuenta.NombreCuenta</td>
+                            <td data-label="Monto" class="num @(esIngreso ? "monto-ingreso" : "monto-gasto")">@(esIngreso ? "+" : "−")@Formato.Dinero(t.Monto)</td>
+                            <td class="acciones">
+                                <a class="btn btn-outline btn-sm" asp-action="Edit" asp-route-id="@t.Id">Editar</a>
+                                <a class="btn btn-outline btn-sm" asp-action="Delete" asp-route-id="@t.Id">Eliminar</a>
                             </td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
-    </div>
+    </section>
 
     @if (r.TotalPaginas > 1)
     {
         var anterior = Math.Max(1, r.Pagina - 1);
         var siguiente = Math.Min(r.TotalPaginas, r.Pagina + 1);
-        <nav class="d-flex justify-content-between align-items-center mt-3" aria-label="Paginación del historial">
-            <span class="text-secondary small">Página @r.Pagina de @r.TotalPaginas · @r.Total movimientos</span>
-            <ul class="pagination mb-0">
-                <li class="page-item @(r.Pagina <= 1 ? "disabled" : "")">
-                    <a class="page-link" asp-action="Index" asp-route-pagina="@anterior"
-                       asp-route-tamanioPagina="@f.TamanioPagina" asp-route-texto="@f.Texto" asp-route-tipo="@f.Tipo"
-                       asp-route-cuentaId="@f.CuentaId" asp-route-categoriaId="@f.CategoriaId"
-                       asp-route-desde="@desde" asp-route-hasta="@hasta">Anterior</a>
-                </li>
-                <li class="page-item @(r.Pagina >= r.TotalPaginas ? "disabled" : "")">
-                    <a class="page-link" asp-action="Index" asp-route-pagina="@siguiente"
-                       asp-route-tamanioPagina="@f.TamanioPagina" asp-route-texto="@f.Texto" asp-route-tipo="@f.Tipo"
-                       asp-route-cuentaId="@f.CuentaId" asp-route-categoriaId="@f.CategoriaId"
-                       asp-route-desde="@desde" asp-route-hasta="@hasta">Siguiente</a>
-                </li>
-            </ul>
+        <nav class="paginacion" aria-label="Paginación">
+            <a class="btn btn-outline btn-sm" aria-disabled="@(r.Pagina <= 1 ? "true" : "false")" asp-action="Index" asp-route-pagina="@anterior"
+               asp-route-tamanioPagina="@f.TamanioPagina" asp-route-texto="@f.Texto" asp-route-tipo="@f.Tipo"
+               asp-route-cuentaId="@f.CuentaId" asp-route-categoriaId="@f.CategoriaId"
+               asp-route-desde="@desde" asp-route-hasta="@hasta">← Anterior</a>
+            <span class="muted">Página @r.Pagina de @r.TotalPaginas · @r.Total movimientos</span>
+            <a class="btn btn-outline btn-sm" aria-disabled="@(r.Pagina >= r.TotalPaginas ? "true" : "false")" asp-action="Index" asp-route-pagina="@siguiente"
+               asp-route-tamanioPagina="@f.TamanioPagina" asp-route-texto="@f.Texto" asp-route-tipo="@f.Tipo"
+               asp-route-cuentaId="@f.CuentaId" asp-route-categoriaId="@f.CategoriaId"
+               asp-route-desde="@desde" asp-route-hasta="@hasta">Siguiente →</a>
         </nav>
     }
 }
