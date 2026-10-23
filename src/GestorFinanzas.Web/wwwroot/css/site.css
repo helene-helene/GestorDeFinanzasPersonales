@@ -1,4 +1,0 @@
-/* Estilos provisionales del módulo de movimientos. El módulo de interfaz los reemplaza por la identidad visual final. */
-.table td, .table th { vertical-align: middle; }
-.btn-check:checked + .btn-outline-success { color: #fff; }
-.btn-check:checked + .btn-outline-danger { color: #fff; }
